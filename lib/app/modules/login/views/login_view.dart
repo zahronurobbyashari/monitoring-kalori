@@ -34,7 +34,7 @@ class LoginView extends GetView<LoginController> {
                       child: const Text(
                         "Login",
                         style: TextStyle(
-                          fontSize: 50,
+                          fontSize: 45,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

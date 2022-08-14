@@ -1,9 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:monitoring_kalori/app/routes/app_pages.dart';
 
 class RegisterController extends GetxController {
-  //TODO: Implement RegisterController
+  double headerHeight = 250;
+  Key formKey = GlobalKey<FormState>();
 
-  final count = 0.obs;
+  void getLogin() {
+    Get.toNamed(Routes.HITUNG_BMI);
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -18,6 +24,4 @@ class RegisterController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

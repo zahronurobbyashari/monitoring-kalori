@@ -33,7 +33,10 @@ class RegisterView extends GetView<RegisterController> {
                     },
                   ),
                 ),
-                HeaderWidget(),
+                Container(
+                  height: height * 0.3,
+                  child: HeaderWidget(),
+                ),
               ],
             ),
             SafeArea(
@@ -63,20 +66,16 @@ class RegisterView extends GetView<RegisterController> {
                       child: Column(
                         children: [
                           TextField(
+                              controller: controller.fullnamec,
                               decoration: FormHelper().textInputDecoration(
                                   'Full name', 'Enter your full name')),
                           SizedBox(
                             height: height * 0.01,
                           ),
-                          TextField(
-                              decoration: FormHelper().textInputDecoration(
-                                  'Username', 'Enter your username')),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
                           TextFormField(
-                              // validator: (value) =>
-                              // EmailValidator.validate(value)
+                              controller: controller.emailc,
+                              // validator: (value) => EmailValidator.validate(
+                              //         controller.emailc.text)
                               //     ? null
                               //     : "Please enter a valid email",
                               decoration: FormHelper().textInputDecoration(
@@ -85,6 +84,7 @@ class RegisterView extends GetView<RegisterController> {
                             height: height * 0.01,
                           ),
                           TextField(
+                              controller: controller.passc,
                               obscureText: true,
                               decoration: FormHelper().textInputDecoration(
                                   'Password', 'Enter your password')),
@@ -92,6 +92,7 @@ class RegisterView extends GetView<RegisterController> {
                             height: height * 0.005,
                           ),
                           TextField(
+                              controller: controller.confirmpassc,
                               obscureText: true,
                               decoration: FormHelper().textInputDecoration(
                                   'Confirm your password',
@@ -106,7 +107,11 @@ class RegisterView extends GetView<RegisterController> {
                             child: ElevatedButton(
                               style: FormHelper().buttonStyle(),
                               onPressed: () {
-                                // controller.login();
+                                controller.postRegister(
+                                    controller.fullnamec.text,
+                                    controller.emailc.text,
+                                    controller.passc.text,
+                                    controller.confirmpassc.text);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(

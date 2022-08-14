@@ -18,7 +18,7 @@ class LoginView extends GetView<LoginController> {
         child: Column(
           children: [
             Container(
-              height: controller.headerHeight,
+              height: height * 0.3,
               child: HeaderWidget(),
             ),
             SafeArea(
@@ -59,7 +59,7 @@ class LoginView extends GetView<LoginController> {
                           TextField(
                               controller: controller.emailc,
                               decoration: FormHelper().textInputDecoration(
-                                  'Username', 'Enter your username')),
+                                  'Email', 'Enter your email')),
                           SizedBox(
                             height: height * 0.01,
                           ),

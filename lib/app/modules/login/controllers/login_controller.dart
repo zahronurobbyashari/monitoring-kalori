@@ -9,13 +9,12 @@ class LoginController extends GetxController {
   final emailc = TextEditingController();
   final passc = TextEditingController();
 
-  double headerHeight = 250;
   Key formKey = GlobalKey<FormState>();
 
   Future<void> login(String email, String password) async {
     try {
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      Get.offAllNamed(Routes.HITUNG_BMI);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -23,7 +22,6 @@ class LoginController extends GetxController {
         print('Wrong password provided for that user.');
       }
     }
-    Get.toNamed(Routes.HITUNG_BMI);
   }
 
   void getRegister() {

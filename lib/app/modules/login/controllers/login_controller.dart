@@ -13,8 +13,23 @@ class LoginController extends GetxController {
 
   Future<void> login(String email, String password) async {
     try {
-      await auth.signInWithEmailAndPassword(email: email, password: password);
-      Get.offAllNamed(Routes.HITUNG_BMI);
+      UserCredential credential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (credential.user!.emailVerified) {
+        Get.offAllNamed(Routes.HITUNG_BMI);
+      } else {
+        Get.defaultDialog(
+            title: "Verification Email",
+            middleText: "Kamu belum verifikasi email.",
+            content: Text("Kirimkan kembali email"),
+            onConfirm: () async {
+              await credential.user!.sendEmailVerification();
+              Get.back();
+            },
+            textConfirm: 'Ya',
+            onCancel: () => Get.back(),
+            textCancel: 'Kembali');
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -42,6 +57,8 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
+    emailc.dispose();
+    passc.dispose();
     super.onClose();
   }
 }

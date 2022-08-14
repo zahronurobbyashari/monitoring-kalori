@@ -27,15 +27,27 @@ class RegisterController extends GetxController {
             if (password.length >= 8) {
               if (password == confirmPassword) {
                 try {
-                  await auth.createUserWithEmailAndPassword(
+                  UserCredential credential =
+                      await auth.createUserWithEmailAndPassword(
                     email: email,
                     password: password,
                   );
-                  Get.offAllNamed(Routes.HITUNG_BMI);
+                  await credential.user!.sendEmailVerification();
+                  Get.defaultDialog(
+                    title: "Verification Email",
+                    middleText:
+                        "Kami telah mengirimkan email verifikasi ke $email.",
+                    onConfirm: () {
+                      Get.back();
+                      Get.back();
+                    },
+                    textConfirm: 'yes',
+                  );
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'weak-password') {
                     print('The password provided is too weak.');
                   } else if (e.code == 'email-already-in-use') {
+                    emailc.dispose();
                     print('The account already exists for that email.');
                   }
                 } catch (e) {
@@ -73,6 +85,10 @@ class RegisterController extends GetxController {
 
   @override
   void onClose() {
+    fullnamec.dispose();
+    emailc.dispose();
+    passc.dispose();
+    confirmpassc.dispose();
     super.onClose();
   }
 }

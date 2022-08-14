@@ -1,16 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
-  //TODO: Implement LoginController
+  FirebaseAuth auth = FirebaseAuth.instance;
+  final emailc = TextEditingController();
+  final passc = TextEditingController();
 
-  final count = 0.obs;
   double headerHeight = 250;
   Key formKey = GlobalKey<FormState>();
 
-  void login() {
+  Future<void> login(String email, String password) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
     Get.toNamed(Routes.HITUNG_BMI);
   }
 
@@ -34,6 +46,4 @@ class LoginController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

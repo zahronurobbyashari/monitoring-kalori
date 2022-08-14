@@ -57,12 +57,14 @@ class LoginView extends GetView<LoginController> {
                       child: Column(
                         children: [
                           TextField(
+                              controller: controller.emailc,
                               decoration: FormHelper().textInputDecoration(
                                   'Username', 'Enter your username')),
                           SizedBox(
                             height: height * 0.01,
                           ),
                           TextField(
+                              controller: controller.passc,
                               obscureText: true,
                               decoration: FormHelper().textInputDecoration(
                                   'Password', 'Enter your password')),
@@ -80,7 +82,8 @@ class LoginView extends GetView<LoginController> {
                             child: ElevatedButton(
                               style: FormHelper().buttonStyle(),
                               onPressed: () {
-                                controller.login();
+                                controller.login(controller.emailc.text,
+                                    controller.passc.text);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(

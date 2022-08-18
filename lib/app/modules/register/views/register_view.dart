@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +36,7 @@ class RegisterView extends GetView<RegisterController> {
                 ),
                 Container(
                   height: height * 0.3,
-                  child: HeaderWidget(),
+                  child: const HeaderWidget(),
                 ),
               ],
             ),
@@ -64,10 +66,7 @@ class RegisterView extends GetView<RegisterController> {
                       key: controller.formKey,
                       child: Column(
                         children: [
-                          TextFormField(
-                              controller: controller.fullnamec,
-                              decoration: FormHelper().textInputDecoration(
-                                  'Full name', 'Enter your full name')),
+                          fullNameField(),
                           SizedBox(
                             height: height * 0.01,
                           ),
@@ -75,20 +74,11 @@ class RegisterView extends GetView<RegisterController> {
                           SizedBox(
                             height: height * 0.01,
                           ),
-                          TextField(
-                              controller: controller.passwordc,
-                              obscureText: true,
-                              decoration: FormHelper().textInputDecoration(
-                                  'Password', 'Enter your password')),
+                          passwordField(),
                           SizedBox(
                             height: height * 0.005,
                           ),
-                          TextField(
-                              controller: controller.confirmpassc,
-                              obscureText: true,
-                              decoration: FormHelper().textInputDecoration(
-                                  'Confirm your password',
-                                  'Confirm your password')),
+                          confirmPasswordField(),
                           SizedBox(
                             height: height * 0.005,
                           ),
@@ -119,9 +109,10 @@ class RegisterView extends GetView<RegisterController> {
                                 horizontal: 10, vertical: 20),
                             child: Text.rich(
                               TextSpan(
-                                style: TextStyle(fontSize: 18),
+                                style: const TextStyle(fontSize: 18),
                                 children: [
-                                  TextSpan(text: "Already have a account?"),
+                                  const TextSpan(
+                                      text: "Already have a account?"),
                                   TextSpan(
                                       style: TextStyle(
                                           color: appThemeData.primaryColor,
@@ -148,15 +139,52 @@ class RegisterView extends GetView<RegisterController> {
     );
   }
 
+  Widget fullNameField() {
+    return TextFormField(
+      controller: controller.fullnamec,
+      decoration:
+          FormHelper().textInputDecoration('Full name', 'Enter your full name'),
+      onSaved: (value) => controller.fullname = value!,
+      validator: (value) => controller.ValidateFullName(value!),
+      keyboardType: TextInputType.name,
+    );
+  }
+
   Widget emailField() {
     return TextFormField(
       controller: controller.emailc,
       decoration: FormHelper().textInputDecoration(
-        'Email ',
-        'Enter your Email',
+        'email ',
+        'enter your Email',
       ),
       onSaved: (value) => controller.email = value!,
       validator: (value) => controller.ValidateEmail(value!),
+    );
+  }
+
+  Widget passwordField() {
+    return TextFormField(
+      controller: controller.passwordc,
+      obscureText: true,
+      decoration: FormHelper().textInputDecoration(
+        'password',
+        'enter your password',
+      ),
+      onSaved: (value) => controller.password = value!,
+      validator: (value) => controller.ValidatePassword(value!),
+    );
+  }
+
+  Widget confirmPasswordField() {
+    return TextFormField(
+      controller: controller.confirmpasswordc,
+      obscureText: true,
+      decoration: FormHelper().textInputDecoration(
+        'confirm your password',
+        'enter your password once again',
+      ),
+      onSaved: (value) => controller.confirmPassword = value!,
+      validator: (value) => controller.ValidateConfirmPassword(value!),
     );
   }
 }

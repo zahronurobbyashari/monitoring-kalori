@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, unused_import, unnecessary_null_comparison
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,14 +9,27 @@ import 'package:monitoring_kalori/app/routes/app_pages.dart';
 class RegisterController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  TextEditingController fullnamec = TextEditingController();
-  TextEditingController confirmpassc = TextEditingController();
   double headerHeight = 250;
   final formKey = GlobalKey<FormState>();
-  late TextEditingController emailc, passwordc;
+  late TextEditingController emailc, passwordc, fullnamec, confirmpasswordc;
   var email = '';
   var password = '';
+  var fullname = '';
+  var confirmPassword = '';
 
+  // ignore: non_constant_identifier_names
+  String? ValidateFullName(String value) {
+    if (isWhiteSpace(value)) {
+      return "this is a required field";
+    } else {
+      if (!isAlphabet(value)) {
+        return "Please input alphabet only , no number or special character";
+      }
+    }
+    return null;
+  }
+
+  // ignore: non_constant_identifier_names
   String? ValidateEmail(String value) {
     if (isWhiteSpace(value)) {
       return "this is a required field";
@@ -27,11 +42,35 @@ class RegisterController extends GetxController {
     return null;
   }
 
+  // ignore: non_constant_identifier_names
   String? ValidatePassword(String value) {
-    if (value.length < 8) {
-      return "character minimum of password is 8";
+    if (isWhiteSpace(value)) {
+      return "this is a required field";
+    } else {
+      if ((value.length < 8)) {
+        return "character minimum of password is 8";
+      }
     }
     return null;
+  }
+
+  // ignore: non_constant_identifier_names
+  String? ValidateConfirmPassword(String value) {
+    if (isWhiteSpace(value)) {
+      return "this is a required field";
+    } else {
+      if (value != passwordc.text) {
+        return "confirm password must be same as password";
+      }
+    }
+    return null;
+  }
+
+  bool isAlphabet(String value) {
+    return RegExp(
+      r"/^WS{1,2}:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:56789/i",
+      caseSensitive: false,
+    ).hasMatch(value);
   }
 
   bool isWhiteSpace(String value) => value.trim().isEmpty;
@@ -42,6 +81,7 @@ class RegisterController extends GetxController {
     if (!isValid) {
       return;
     }
+
     formKey.currentState!.save();
     try {
       UserCredential credential = await auth.createUserWithEmailAndPassword(
@@ -79,9 +119,12 @@ class RegisterController extends GetxController {
     super.onInit();
     emailc = TextEditingController();
     passwordc = TextEditingController();
+    fullnamec = TextEditingController();
+    confirmpasswordc = TextEditingController();
   }
 
   @override
+  // ignore: unnecessary_overrides
   void onReady() {
     super.onReady();
   }
@@ -91,7 +134,7 @@ class RegisterController extends GetxController {
     fullnamec.dispose();
     emailc.dispose();
     passwordc.dispose();
-    confirmpassc.dispose();
+    confirmpasswordc.dispose();
     super.onClose();
   }
 }

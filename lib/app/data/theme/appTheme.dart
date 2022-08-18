@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unused_import, deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -71,7 +73,7 @@ class FormHelper {
         ),
       ),
       minimumSize: MaterialStateProperty.all(
-        Size(50, 50),
+        const Size(50, 50),
       ),
       backgroundColor: MaterialStateProperty.all(Colors.transparent),
       shadowColor: MaterialStateProperty.all(Colors.transparent),

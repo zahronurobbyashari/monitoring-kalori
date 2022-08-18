@@ -24,6 +24,8 @@ class RegisterController extends GetxController {
     } else {
       if (!isAlphabet(value)) {
         return "Please input alphabet only , no number or special character";
+      } else if (value.length > 40) {
+        return "maximum character for fullname  is 40";
       }
     }
     return null;
@@ -49,6 +51,8 @@ class RegisterController extends GetxController {
     } else {
       if ((value.length < 8)) {
         return "character minimum of password is 8";
+      } else if (value.length > 16) {
+        return "maximum character for fullname  is 16";
       }
     }
     return null;
@@ -68,7 +72,7 @@ class RegisterController extends GetxController {
 
   bool isAlphabet(String value) {
     return RegExp(
-      r"/^WS{1,2}:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:56789/i",
+      r"^[a-z ,.\'-]+$",
       caseSensitive: false,
     ).hasMatch(value);
   }

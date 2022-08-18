@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, sized_box_for_whitespace
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +21,7 @@ class LoginView extends GetView<LoginController> {
           children: [
             Container(
               height: height * 0.3,
-              child: HeaderWidget(),
+              child: const HeaderWidget(),
             ),
             SafeArea(
               child: Container(
@@ -56,18 +58,11 @@ class LoginView extends GetView<LoginController> {
                       key: controller.formKey,
                       child: Column(
                         children: [
-                          TextField(
-                              controller: controller.emailc,
-                              decoration: FormHelper().textInputDecoration(
-                                  'Email', 'Enter your email')),
+                          emailField(),
                           SizedBox(
                             height: height * 0.01,
                           ),
-                          TextField(
-                              controller: controller.passc,
-                              obscureText: true,
-                              decoration: FormHelper().textInputDecoration(
-                                  'Password', 'Enter your password')),
+                          passwordField(),
                           SizedBox(
                             height: height * 0.005,
                           ),
@@ -82,8 +77,7 @@ class LoginView extends GetView<LoginController> {
                             child: ElevatedButton(
                               style: FormHelper().buttonStyle(),
                               onPressed: () {
-                                controller.login(controller.emailc.text,
-                                    controller.passc.text);
+                                controller.checkLogin();
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -103,9 +97,10 @@ class LoginView extends GetView<LoginController> {
                                 horizontal: 10, vertical: 20),
                             child: Text.rich(
                               TextSpan(
-                                style: TextStyle(fontSize: 18),
+                                style: const TextStyle(fontSize: 18),
                                 children: [
-                                  TextSpan(text: "Don't have an account?"),
+                                  const TextSpan(
+                                      text: "Don't have an account?"),
                                   TextSpan(
                                       style: TextStyle(
                                           color: appThemeData.primaryColor,
@@ -129,6 +124,31 @@ class LoginView extends GetView<LoginController> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget emailField() {
+    return TextFormField(
+      controller: controller.emailc,
+      decoration: FormHelper().textInputDecoration(
+        'Email',
+        'Enter your email',
+      ),
+      onSaved: (value) => controller.email = value!,
+      validator: (value) => controller.ValidateEmail(value!),
+    );
+  }
+
+  Widget passwordField() {
+    return TextFormField(
+      controller: controller.passwordc,
+      obscureText: true,
+      decoration: FormHelper().textInputDecoration(
+        'Password',
+        'Enter your password',
+      ),
+      onSaved: (value) => controller.password = value!,
+      validator: (value) => controller.ValidatePassword(value!),
     );
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,12 +8,48 @@ import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
-  final emailc = TextEditingController();
-  final passc = TextEditingController();
 
-  Key formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
-  Future<void> login(String email, String password) async {
+  late TextEditingController emailc, passwordc;
+  var email = '';
+  var password = '';
+
+  // ignore: non_constant_identifier_names
+  String? ValidateEmail(String value) {
+    if (isWhiteSpace(value)) {
+      return "this is a required field";
+    } else {
+      if (!GetUtils.isEmail(value)) {
+        return "please input a valid email";
+      }
+    }
+
+    return null;
+  }
+
+  // ignore: non_constant_identifier_names
+  String? ValidatePassword(String value) {
+    if (isWhiteSpace(value)) {
+      return "this is a required field";
+    } else {
+      if ((value.length < 8)) {
+        return "character minimum of password is 8";
+      } else if (value.length > 16) {
+        return "maximum character for fullname  is 16";
+      }
+    }
+    return null;
+  }
+
+  bool isWhiteSpace(String value) => value.trim().isEmpty;
+
+  Future<void> checkLogin() async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
+    formKey.currentState!.save();
     try {
       UserCredential credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -47,6 +85,8 @@ class LoginController extends GetxController {
   void onInit() {
     super.onInit();
     print("on init");
+    emailc = TextEditingController();
+    passwordc = TextEditingController();
   }
 
   @override
@@ -58,7 +98,7 @@ class LoginController extends GetxController {
   @override
   void onClose() {
     emailc.dispose();
-    passc.dispose();
+    passwordc.dispose();
     super.onClose();
   }
 }

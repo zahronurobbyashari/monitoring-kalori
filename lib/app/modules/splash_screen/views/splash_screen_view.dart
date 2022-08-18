@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import '../../../data/theme/colorTheme.dart';
+import '../../../data/theme/appTheme.dart';
 import '../controllers/splash_screen_controller.dart';
 
 class SplashScreenView extends GetView<SplashScreenController> {

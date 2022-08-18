@@ -21,7 +21,7 @@ class LoginController extends GetxController {
         Get.defaultDialog(
             title: "Verification Email",
             middleText: "Kamu belum verifikasi email.",
-            content: Text("Kirimkan kembali email"),
+            content: const Text("Kirimkan kembali email"),
             onConfirm: () async {
               await credential.user!.sendEmailVerification();
               Get.back();

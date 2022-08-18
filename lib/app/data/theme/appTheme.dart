@@ -45,7 +45,7 @@ class FormHelper {
     BuildContext context,
   ) {
     return BoxDecoration(
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
           color: Colors.black26,
           offset: Offset(0, 4),
@@ -55,7 +55,7 @@ class FormHelper {
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        stops: [0.0, 1.0],
+        stops: const [0.0, 1.0],
         colors: [appThemeData.primaryColor, appThemeData.accentColor],
       ),
       color: appThemeData.primaryColor,
@@ -78,5 +78,3 @@ class FormHelper {
     );
   }
 }
-
-class LoginFormStyle {}

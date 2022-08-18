@@ -21,7 +21,7 @@ class SplashScreenController extends GetxController {
     super.onReady();
     print("on ready");
     print("Going to Routes Login in " + timer.toString() + "seconds");
-    Timer(Duration(seconds: timer), () => {Get.toNamed(Routes.LOGIN)});
+    Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.LOGIN)});
   }
 
   @override

@@ -1,9 +1,8 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:monitoring_kalori/app/data/theme/colorTheme.dart';
+import 'package:monitoring_kalori/app/data/theme/appTheme.dart';
 
 import '../controllers/register_controller.dart';
 
@@ -24,7 +23,7 @@ class RegisterView extends GetView<RegisterController> {
                 Padding(
                   padding: const EdgeInsets.only(left: 30, top: 40),
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back,
                     ),
                     color: Colors.grey,
@@ -65,26 +64,19 @@ class RegisterView extends GetView<RegisterController> {
                       key: controller.formKey,
                       child: Column(
                         children: [
-                          TextField(
+                          TextFormField(
                               controller: controller.fullnamec,
                               decoration: FormHelper().textInputDecoration(
                                   'Full name', 'Enter your full name')),
                           SizedBox(
                             height: height * 0.01,
                           ),
-                          TextFormField(
-                              controller: controller.emailc,
-                              // validator: (value) => EmailValidator.validate(
-                              //         controller.emailc.text)
-                              //     ? null
-                              //     : "Please enter a valid email",
-                              decoration: FormHelper().textInputDecoration(
-                                  'Email', 'Enter your email')),
+                          emailField(),
                           SizedBox(
                             height: height * 0.01,
                           ),
                           TextField(
-                              controller: controller.passc,
+                              controller: controller.passwordc,
                               obscureText: true,
                               decoration: FormHelper().textInputDecoration(
                                   'Password', 'Enter your password')),
@@ -107,11 +99,7 @@ class RegisterView extends GetView<RegisterController> {
                             child: ElevatedButton(
                               style: FormHelper().buttonStyle(),
                               onPressed: () {
-                                controller.postRegister(
-                                    controller.fullnamec.text,
-                                    controller.emailc.text,
-                                    controller.passc.text,
-                                    controller.confirmpassc.text);
+                                controller.checkRegister();
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -157,6 +145,18 @@ class RegisterView extends GetView<RegisterController> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget emailField() {
+    return TextFormField(
+      controller: controller.emailc,
+      decoration: FormHelper().textInputDecoration(
+        'Email ',
+        'Enter your Email',
+      ),
+      onSaved: (value) => controller.email = value!,
+      validator: (value) => controller.ValidateEmail(value!),
     );
   }
 }

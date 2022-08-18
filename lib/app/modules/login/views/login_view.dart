@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../../data/theme/colorTheme.dart';
+import '../../../data/theme/appTheme.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {

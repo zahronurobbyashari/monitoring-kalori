@@ -33,8 +33,16 @@ class HitungBmiView extends GetView<HitungBmiController> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              Container(
+                height: height * 0.13,
+                child: const HeaderWidget(),
+              ),
               SafeArea(
                   child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Column(children: [
                   Container(
                     alignment: Alignment.topLeft,
@@ -54,14 +62,25 @@ class HitungBmiView extends GetView<HitungBmiController> {
                       child: Column(
                         children: [
                           heightField(),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
                           weightField(),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
                           ageField(),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
                           Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  child: Text('gender'),
-                                ),
                                 radioMale(),
                                 radioFemale(),
                               ],
@@ -181,5 +200,93 @@ class HitungBmiView extends GetView<HitungBmiController> {
         Text("Female"),
       ],
     );
+  }
+}
+
+class HeaderWidget extends StatefulWidget {
+  const HeaderWidget({Key? key}) : super(key: key);
+
+  @override
+  State<HeaderWidget> createState() => _HeaderWidgetState();
+}
+
+class _HeaderWidgetState extends State<HeaderWidget> {
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    return Container(
+      alignment: Alignment.topRight,
+      child: Stack(
+        children: [
+          ClipPath(
+            clipper: BottomClipper(),
+            child: Container(
+              height: height * 0.13,
+              width: width * 0.4,
+              decoration: BoxDecoration(
+                color: appThemeData.primaryColor,
+              ),
+            ),
+          ),
+          ClipPath(
+            clipper: TopClipper(),
+            child: Container(
+              alignment: Alignment.topRight,
+              height: height * 0.13,
+              width: width * 0.4,
+              decoration: BoxDecoration(
+                color: appThemeData.accentColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BottomClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.2);
+
+    // path.quadraticBezierTo(0, size.height * 0.2, , size.height);
+
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class TopClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.4);
+
+    // path.quadraticBezierTo(0, size.height * 0.2, , size.height);
+
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
   }
 }

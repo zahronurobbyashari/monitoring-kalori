@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, unused_import, unnecessary_null_comparison, prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import '../../../data/theme/appTheme.dart';
 
 class RegisterController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   double headerHeight = 250;
   final formKey = GlobalKey<FormState>();
@@ -83,6 +85,7 @@ class RegisterController extends GetxController {
   bool isWhiteSpace(String value) => value.trim().isEmpty;
 
   Future<void> checkRegister() async {
+    CollectionReference userCalory = firestore.collection('users');
     // ignore: unused_local_variable
     final isValid = formKey.currentState!.validate();
     if (!isValid) {
@@ -96,6 +99,20 @@ class RegisterController extends GetxController {
         password: password.toString(),
       );
       await credential.user!.sendEmailVerification();
+      print(credential.user);
+      try {
+        await userCalory
+            .doc(credential.user!.email)
+            .set({
+              'uid': credential.user!.uid,
+              'name': fullname,
+              'email': credential.user!.email,
+            })
+            .then((value) => print("ok"))
+            .catchError((error) => print("Failed to add bmi : $error"));
+      } catch (e) {
+        print(e);
+      }
 
       Get.defaultDialog(
         title: 'Verification Email',
@@ -130,7 +147,7 @@ class RegisterController extends GetxController {
           child: ElevatedButton(
             style: FormHelper().buttonStyle(),
             onPressed: () {
-              Get.back();
+              Get.offAllNamed(Routes.LOGIN);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/theme/appTheme.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
@@ -55,26 +56,196 @@ class LoginController extends GetxController {
           email: email, password: password);
       if (credential.user!.emailVerified) {
         Get.offAllNamed(Routes.HITUNG_BMI);
-        //TODO: Make a Pop up login success then redirect to hitung_bmi view
-        //TODO: Make a function to check if user has bmi or no
       } else {
         Get.defaultDialog(
-            title: "Verification Email",
-            middleText: "Kamu belum verifikasi email.",
-            content: const Text("Kirimkan kembali email"),
-            onConfirm: () async {
-              await credential.user!.sendEmailVerification();
-              Get.back();
-            },
-            textConfirm: 'Ya',
-            onCancel: () => Get.back(),
-            textCancel: 'Kembali');
+          title: 'Verification Email',
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(child: Image.asset('assets/images/repo.png')),
+              Padding(padding: const EdgeInsets.only(bottom: 5)),
+              Text(
+                'we already send the email verification to $email , please check your email',
+              ),
+              Text('resend email ? '),
+            ],
+          ),
+          confirm: Container(
+            margin: const EdgeInsets.only(top: 5),
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(0, 4),
+                  blurRadius: 5.0,
+                ),
+              ],
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: const [0.0, 1.0],
+                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+              ),
+              color: appThemeData.primaryColor,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: ElevatedButton(
+              style: FormHelper().buttonStyle(),
+              onPressed: () async {
+                await credential.user!.sendEmailVerification();
+                Get.back();
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                child: Text(
+                  'ok'.toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+          cancel: Container(
+            margin: const EdgeInsets.only(top: 5),
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(0, 4),
+                  blurRadius: 5.0,
+                ),
+              ],
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: const [0.0, 1.0],
+                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+              ),
+              color: appThemeData.primaryColor,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: ElevatedButton(
+              style: FormHelper().buttonStyle(),
+              onPressed: () {
+                Get.back();
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                child: Text(
+                  'Back'.toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        );
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        Get.defaultDialog(
+          title: 'Failed',
+          content: Column(
+            children: [
+              Container(child: Image.asset('assets/images/repo.png')),
+              Padding(padding: const EdgeInsets.only(bottom: 5)),
+              Text('sorry, your account not registered or invalid'),
+            ],
+          ),
+          confirm: Container(
+            margin: const EdgeInsets.only(top: 5),
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(0, 4),
+                  blurRadius: 5.0,
+                ),
+              ],
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: const [0.0, 1.0],
+                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+              ),
+              color: appThemeData.primaryColor,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: ElevatedButton(
+              style: FormHelper().buttonStyle(),
+              onPressed: () {
+                Get.back();
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                child: Text(
+                  'ok'.toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        );
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
+        Get.defaultDialog(
+          title: 'Failed',
+          content: Column(
+            children: [
+              Container(child: Image.asset('assets/images/repo.png')),
+              Padding(padding: const EdgeInsets.only(bottom: 5)),
+              Text('incorrect password , please check your correct password'),
+            ],
+          ),
+          confirm: Container(
+            margin: const EdgeInsets.only(top: 5),
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(0, 4),
+                  blurRadius: 5.0,
+                ),
+              ],
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: const [0.0, 1.0],
+                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+              ),
+              color: appThemeData.primaryColor,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: ElevatedButton(
+              style: FormHelper().buttonStyle(),
+              onPressed: () {
+                Get.back();
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                child: Text(
+                  'ok'.toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        );
       }
     }
   }

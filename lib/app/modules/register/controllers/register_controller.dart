@@ -4,7 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 import 'package:monitoring_kalori/app/routes/app_pages.dart';
+
+import '../../../data/theme/appTheme.dart';
 
 class RegisterController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -93,15 +96,107 @@ class RegisterController extends GetxController {
         password: password.toString(),
       );
       await credential.user!.sendEmailVerification();
-      //TODO: Make a Pop up Email verification Already Send
 
+      Get.defaultDialog(
+        title: 'Verification Email',
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(child: Image.asset('assets/images/repo.png')),
+            Padding(padding: const EdgeInsets.only(bottom: 5)),
+            Text(
+                'we already send the email verification to $email , please check your email'),
+          ],
+        ),
+        confirm: Container(
+          margin: const EdgeInsets.only(top: 5),
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0, 4),
+                blurRadius: 5.0,
+              ),
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: const [0.0, 1.0],
+              colors: [appThemeData.primaryColor, appThemeData.accentColor],
+            ),
+            color: appThemeData.primaryColor,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ElevatedButton(
+            style: FormHelper().buttonStyle(),
+            onPressed: () {
+              Get.back();
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+              child: Text(
+                'ok'.toUpperCase(),
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        emailc.dispose();
         print('The account already exists for that email.');
-        //TODO: Make a Pop up Email Already exist
+        Get.defaultDialog(
+          title: 'Failed',
+          content: Column(
+            children: [
+              Container(child: Image.asset('assets/images/repo.png')),
+              Padding(padding: const EdgeInsets.only(bottom: 5)),
+              Text('sorry, the email is already in use by another user'),
+            ],
+          ),
+          confirm: Container(
+            margin: const EdgeInsets.only(top: 5),
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(0, 4),
+                  blurRadius: 5.0,
+                ),
+              ],
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: const [0.0, 1.0],
+                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+              ),
+              color: appThemeData.primaryColor,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: ElevatedButton(
+              style: FormHelper().buttonStyle(),
+              onPressed: () {
+                Get.back();
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                child: Text(
+                  'ok'.toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        );
       }
     } catch (e) {
       print(e);

@@ -1,7 +1,8 @@
-// ignore_for_file: file_names, unused_import, deprecated_member_use
+// ignore_for_file: file_names, unused_import, deprecated_member_use, empty_constructor_bodies
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 
 final ThemeData appThemeData = ThemeData(
   primaryColor: const Color(0xffFC9F00),
@@ -15,7 +16,6 @@ class FormHelper {
   InputDecoration textInputDecoration(
       [String labelText = "", String hintText = ""]) {
     return InputDecoration(
-      
       labelText: labelText,
       hintText: hintText,
       fillColor: appThemeData.backgroundColor,

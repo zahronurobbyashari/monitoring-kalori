@@ -49,89 +49,102 @@ class HitungBmiView extends GetView<HitungBmiController> {
                     height: height * 0.03,
                   ),
                   Form(
+                      key: controller.bmiFormKey,
                       child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: FormHelper().textInputDecoration(
-                          'height (cm)',
-                          'enter your height',
-                        ),
-                        keyboardType: TextInputType.number,
-                      ),
-                      TextFormField(
-                        decoration: FormHelper().textInputDecoration(
-                          'weight(kg)',
-                          'enter your weight',
-                        ),
-                      ),
-                      TextFormField(
-                        decoration: FormHelper().textInputDecoration(
-                          'Umur',
-                          'enter your umur',
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text('gender'),
+                        children: [
+                          TextFormField(
+                            controller: controller.heightc,
+                            decoration: FormHelper().textInputDecoration(
+                              'height (cm)',
+                              'enter your height',
                             ),
-                            Row(
-                              children: [
-                                Obx(() => Radio(
-                                      value: "Male",
-                                      groupValue:
-                                          controller.selectedGender.value,
-                                      onChanged: (value) {
-                                        controller.onChangeGender(value);
-                                      },
-                                      activeColor: appThemeData.accentColor,
-                                      fillColor: MaterialStateProperty.all(
-                                          appThemeData.primaryColor),
-                                    )),
-                                Text("Male"),
-                              ],
+                            onSaved: (value) =>
+                                controller.height = int.parse(value!),
+                            keyboardType: TextInputType.number,
+                          ),
+                          TextFormField(
+                            controller: controller.weightc,
+                            decoration: FormHelper().textInputDecoration(
+                              'weight(kg)',
+                              'enter your weight',
                             ),
-                            Row(
+                            onSaved: (value) =>
+                                controller.weight = int.parse(value!),
+                          ),
+                          TextFormField(
+                            controller: controller.agec,
+                            decoration: FormHelper().textInputDecoration(
+                              'Umur',
+                              'enter your umur',
+                            ),
+                            onSaved: (value) =>
+                                controller.age = int.parse(value!),
+                          ),
+                          Container(
+                            child: Row(
                               children: [
-                                Obx(() => Radio(
-                                      value: "Female",
-                                      groupValue:
-                                          controller.selectedGender.value,
-                                      onChanged: (value) {
-                                        controller.onChangeGender(value);
-                                      },
-                                      activeColor: appThemeData.accentColor,
-                                      fillColor: MaterialStateProperty.all(
-                                          appThemeData.primaryColor),
-                                    )),
-                                Text("Female"),
+                                Expanded(
+                                  child: Text('gender'),
+                                ),
+                                Row(
+                                  children: [
+                                    Obx(() => Radio(
+                                          value: "Male",
+                                          groupValue:
+                                              controller.selectedGender.value,
+                                          onChanged: (value) {
+                                            controller.onChangeGender(value);
+                                          },
+                                          activeColor: appThemeData.accentColor,
+                                          fillColor: MaterialStateProperty.all(
+                                              appThemeData.primaryColor),
+                                        )),
+                                    Text("Male"),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Obx(() => Radio(
+                                          value: "Female",
+                                          groupValue:
+                                              controller.selectedGender.value,
+                                          onChanged: (value) {
+                                            controller.onChangeGender(value);
+                                          },
+                                          activeColor: appThemeData.accentColor,
+                                          fillColor: MaterialStateProperty.all(
+                                              appThemeData.primaryColor),
+                                        )),
+                                    Text("Female"),
+                                  ],
+                                )
                               ],
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        decoration: FormHelper().buttonBoxDecoration(context),
-                        child: ElevatedButton(
-                          style: FormHelper().buttonStyle(),
-                          onPressed: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
-                            child: Text(
-                              'Next'.toUpperCase(),
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ))
+                          Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            decoration:
+                                FormHelper().buttonBoxDecoration(context),
+                            child: ElevatedButton(
+                              style: FormHelper().buttonStyle(),
+                              onPressed: () {
+                                controller.calcBMI();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 40),
+                                child: Text(
+                                  'Submit'.toUpperCase(),
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ))
                 ]),
               ))
             ],

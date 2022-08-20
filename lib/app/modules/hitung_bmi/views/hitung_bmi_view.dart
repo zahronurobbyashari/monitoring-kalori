@@ -64,6 +64,12 @@ class HitungBmiView extends GetView<HitungBmiController> {
                           'enter your weight',
                         ),
                       ),
+                      TextFormField(
+                        decoration: FormHelper().textInputDecoration(
+                          'Umur',
+                          'enter your umur',
+                        ),
+                      ),
                       Container(
                         child: Row(
                           children: [

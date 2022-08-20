@@ -15,6 +15,7 @@ class FormHelper {
   InputDecoration textInputDecoration(
       [String labelText = "", String hintText = ""]) {
     return InputDecoration(
+      
       labelText: labelText,
       hintText: hintText,
       fillColor: appThemeData.backgroundColor,

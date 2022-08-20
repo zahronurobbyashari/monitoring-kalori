@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:monitoring_kalori/app/data/theme/appTheme.dart';
@@ -52,72 +53,17 @@ class HitungBmiView extends GetView<HitungBmiController> {
                       key: controller.bmiFormKey,
                       child: Column(
                         children: [
-                          TextFormField(
-                            controller: controller.heightc,
-                            decoration: FormHelper().textInputDecoration(
-                              'height (cm)',
-                              'enter your height',
-                            ),
-                            onSaved: (value) =>
-                                controller.height = int.parse(value!),
-                            keyboardType: TextInputType.number,
-                          ),
-                          TextFormField(
-                            controller: controller.weightc,
-                            decoration: FormHelper().textInputDecoration(
-                              'weight(kg)',
-                              'enter your weight',
-                            ),
-                            onSaved: (value) =>
-                                controller.weight = int.parse(value!),
-                          ),
-                          TextFormField(
-                            controller: controller.agec,
-                            decoration: FormHelper().textInputDecoration(
-                              'Umur',
-                              'enter your umur',
-                            ),
-                            onSaved: (value) =>
-                                controller.age = int.parse(value!),
-                          ),
+                          heightField(),
+                          weightField(),
+                          ageField(),
                           Container(
                             child: Row(
                               children: [
                                 Expanded(
                                   child: Text('gender'),
                                 ),
-                                Row(
-                                  children: [
-                                    Obx(() => Radio(
-                                          value: "Male",
-                                          groupValue:
-                                              controller.selectedGender.value,
-                                          onChanged: (value) {
-                                            controller.onChangeGender(value);
-                                          },
-                                          activeColor: appThemeData.accentColor,
-                                          fillColor: MaterialStateProperty.all(
-                                              appThemeData.primaryColor),
-                                        )),
-                                    Text("Male"),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Obx(() => Radio(
-                                          value: "Female",
-                                          groupValue:
-                                              controller.selectedGender.value,
-                                          onChanged: (value) {
-                                            controller.onChangeGender(value);
-                                          },
-                                          activeColor: appThemeData.accentColor,
-                                          fillColor: MaterialStateProperty.all(
-                                              appThemeData.primaryColor),
-                                        )),
-                                    Text("Female"),
-                                  ],
-                                )
+                                radioMale(),
+                                radioFemale(),
                               ],
                             ),
                           ),
@@ -150,5 +96,90 @@ class HitungBmiView extends GetView<HitungBmiController> {
             ],
           ),
         ));
+  }
+
+  Widget heightField() {
+    return TextFormField(
+      controller: controller.heightc,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+        LengthLimitingTextInputFormatter(3),
+      ],
+      decoration: FormHelper().textInputDecoration(
+        'height (cm)',
+        'enter your height',
+      ),
+      onSaved: (value) => controller.height = int.parse(value!),
+      keyboardType: TextInputType.number,
+      validator: (value) => controller.Validates(value!),
+    );
+  }
+
+  Widget weightField() {
+    return TextFormField(
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(3),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+      ],
+      controller: controller.weightc,
+      decoration: FormHelper().textInputDecoration(
+        'weight(kg)',
+        'enter your weight',
+      ),
+      onSaved: (value) => controller.weight = int.parse(value!),
+      keyboardType: TextInputType.number,
+      validator: (value) => controller.Validates(value!),
+    );
+  }
+
+  Widget ageField() {
+    return TextFormField(
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+        LengthLimitingTextInputFormatter(2),
+      ],
+      controller: controller.agec,
+      decoration: FormHelper().textInputDecoration(
+        'Umur',
+        'enter your umur',
+      ),
+      onSaved: (value) => controller.age = int.parse(value!),
+      keyboardType: TextInputType.number,
+      validator: (value) => controller.Validates(value!),
+    );
+  }
+
+  Widget radioMale() {
+    return Row(
+      children: [
+        Obx(() => Radio(
+              value: "Male",
+              groupValue: controller.selectedGender.value,
+              onChanged: (value) {
+                controller.onChangeGender(value);
+              },
+              activeColor: appThemeData.accentColor,
+              fillColor: MaterialStateProperty.all(appThemeData.primaryColor),
+            )),
+        Text("Male"),
+      ],
+    );
+  }
+
+  Widget radioFemale() {
+    return Row(
+      children: [
+        Obx(() => Radio(
+              value: "Female",
+              groupValue: controller.selectedGender.value,
+              onChanged: (value) {
+                controller.onChangeGender(value);
+              },
+              activeColor: appThemeData.accentColor,
+              fillColor: MaterialStateProperty.all(appThemeData.primaryColor),
+            )),
+        Text("Female"),
+      ],
+    );
   }
 }

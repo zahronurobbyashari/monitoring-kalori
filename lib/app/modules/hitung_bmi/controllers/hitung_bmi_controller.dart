@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print
+
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HitungBmiController extends GetxController {
-  //TODO: Implement HitungBmiController
-
-  final count = 0.obs;
   var selectedGender = ''.obs;
 
   final bmiFormKey = GlobalKey<FormState>();
@@ -25,46 +24,53 @@ class HitungBmiController extends GetxController {
     print(selectedGender.value);
   }
 
+  String? Validates(String value) {
+    if (isWhiteSpace(value)) {
+      return "this is a required field";
+    }
+    return null;
+  }
+
+  bool isWhiteSpace(String value) => value.trim().isEmpty;
+
   void calcBMI() async {
-    CollectionReference userBMI = firestore.collection('bmi');
+    CollectionReference userCalory = firestore.collection('userCalory');
     final isValid = bmiFormKey.currentState!.validate();
     if (!isValid) {
       return;
     }
     bmiFormKey.currentState!.save();
-    print("height : " + height.toString());
-    print("weight : " + weight.toString());
-    print("age : " + age.toString());
-    print(selectedGender);
+
     double bmi = weight / pow(height / 100, 2);
-    print(bmi);
-    if (bmi == 0 && bmi <= 15.0)
+
+    if (bmi == 0 && bmi <= 15.0) {
       bmiLabel = "terlalu sangat kurus";
-    else if (bmi >= 15.0 && bmi <= 16.0)
+    } else if (bmi >= 15.0 && bmi <= 16.0) {
       bmiLabel = "sangat kurus";
-    else if (bmi >= 16.0 && bmi <= 18.5)
+    } else if (bmi >= 16.0 && bmi <= 18.5) {
       bmiLabel = "kurus";
-    else if (bmi >= 18.5 && bmi <= 25.0)
+    } else if (bmi >= 18.5 && bmi <= 25.0) {
       bmiLabel = "normal";
-    else if (bmi >= 25.0 && bmi <= 30.0)
+    } else if (bmi >= 25.0 && bmi <= 30.0) {
       bmiLabel = "gemuk";
-    else if (bmi >= 30.0 && bmi <= 35.0)
+    } else if (bmi >= 30.0 && bmi <= 35.0) {
       bmiLabel = "cukup gemuk";
-    else if (bmi >= 35.0 && bmi <= 40.0)
+    } else if (bmi >= 35.0 && bmi <= 40.0) {
       bmiLabel = "sangat gemuk";
-    else
+    } else {
       bmiLabel = "obesitas";
+    }
     try {
-      await userBMI
+      await userCalory
           .add({
-            'height': heightc.text,
-            'weight': weightc.text,
-            'age': agec.text,
+            'height': height,
+            'weight': weight,
+            'age': age,
             'gender': selectedGender.toString(),
             'bmi': bmi,
             'bmi label': bmiLabel
           })
-          .then((value) => print("User Added"))
+          .then((value) => print("ok"))
           .catchError((error) => print("Failed to add bmi : $error"));
     } catch (e) {
       print(e);
@@ -91,6 +97,4 @@ class HitungBmiController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

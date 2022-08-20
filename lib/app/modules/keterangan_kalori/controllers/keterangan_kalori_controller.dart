@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 
 class KeteranganKaloriController extends GetxController {
-  //TODO: Implement KeteranganKaloriController
-
   final count = 0.obs;
   @override
   void onInit() {

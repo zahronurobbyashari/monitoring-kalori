@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unused_import, unnecessary_null_comparison
+// ignore_for_file: avoid_print, unused_import, unnecessary_null_comparison, prefer_const_constructors
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -89,25 +89,19 @@ class RegisterController extends GetxController {
     formKey.currentState!.save();
     try {
       UserCredential credential = await auth.createUserWithEmailAndPassword(
-        email: emailc.value.toString(),
-        password: passwordc.value.toString(),
+        email: email.toString(),
+        password: password.toString(),
       );
       await credential.user!.sendEmailVerification();
-      Get.defaultDialog(
-        title: "Verification Email",
-        middleText: "Kami telah mengirimkan email verifikasi ke $emailc .",
-        onConfirm: () {
-          Get.back();
-          Get.back();
-        },
-        textConfirm: 'yes',
-      );
+      //TODO: Make a Pop up Email verification Already Send
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         emailc.dispose();
         print('The account already exists for that email.');
+        //TODO: Make a Pop up Email Already exist
       }
     } catch (e) {
       print(e);
@@ -135,10 +129,10 @@ class RegisterController extends GetxController {
 
   @override
   void onClose() {
-    fullnamec.dispose();
-    emailc.dispose();
-    passwordc.dispose();
-    confirmpasswordc.dispose();
+    fullnamec.clear();
+    emailc.clear();
+    passwordc.clear();
+    confirmpasswordc.clear();
     super.onClose();
   }
 }

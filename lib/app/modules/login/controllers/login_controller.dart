@@ -55,6 +55,8 @@ class LoginController extends GetxController {
           email: email, password: password);
       if (credential.user!.emailVerified) {
         Get.offAllNamed(Routes.HITUNG_BMI);
+        //TODO: Make a Pop up login success then redirect to hitung_bmi view
+        //TODO: Make a function to check if user has bmi or no
       } else {
         Get.defaultDialog(
             title: "Verification Email",
@@ -97,8 +99,8 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
-    emailc.dispose();
-    passwordc.dispose();
+    passwordc.clear();
+    emailc.clear();
     super.onClose();
   }
 }

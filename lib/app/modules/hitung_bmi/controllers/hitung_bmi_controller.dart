@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:monitoring_kalori/app/routes/app_pages.dart';
+
+import '../../../data/theme/appTheme.dart';
 
 class HitungBmiController extends GetxController {
   var selectedGender = ''.obs;
@@ -18,6 +23,37 @@ class HitungBmiController extends GetxController {
   String bmiLabel = '';
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  void isHasBmi() async {
+    int timer = 3;
+    try {
+      await firestore
+          .collection('users')
+          .doc(auth.currentUser!.email)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.get('bmi') != null) {
+          print(documentSnapshot.data());
+          print("Going to Routes Home in " + timer.toString() + "seconds");
+          Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.HOME)});
+        }
+        //TODO: [BUG] Bad state: field does not exist within the DocumentSnapshotPlatform
+        else {
+          print('gada');
+          print(
+              "Going to Routes Hitung Bmi in " + timer.toString() + "seconds");
+          Timer(Duration(seconds: timer),
+              () => {Get.offNamed(Routes.HITUNG_BMI)});
+        }
+      });
+    } catch (e) {
+      print('gada');
+      print("Going to Routes Hitung Bmi in " + timer.toString() + "seconds");
+      Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.HITUNG_BMI)});
+      print(e);
+    }
+  }
 
   void onChangeGender(var gender) {
     selectedGender.value = gender;
@@ -34,7 +70,7 @@ class HitungBmiController extends GetxController {
   bool isWhiteSpace(String value) => value.trim().isEmpty;
 
   void calcBMI() async {
-    CollectionReference userCalory = firestore.collection('userCalory');
+    CollectionReference users = firestore.collection('users');
     final isValid = bmiFormKey.currentState!.validate();
     if (!isValid) {
       return;
@@ -61,18 +97,71 @@ class HitungBmiController extends GetxController {
       bmiLabel = "obesitas";
     }
     try {
-      await userCalory
-          .add({
-            'height': height,
-            'weight': weight,
-            'age': age,
-            'gender': selectedGender.toString(),
-            'bmi': bmi,
-            'bmi label': bmiLabel
-          })
+      await users
+          .doc(auth.currentUser!.email)
+          .set(
+            {
+              'height': height,
+              'weight': weight,
+              'age': age,
+              'gender': selectedGender.toString(),
+              'bmi': bmi,
+              'bmi label': bmiLabel
+            },
+            SetOptions(merge: true),
+          )
           .then((value) => print("ok"))
           .catchError((error) => print("Failed to add bmi : $error"));
+      Get.offAllNamed(Routes.HOME);
     } catch (e) {
+      Get.defaultDialog(
+        title: 'Something wrong',
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(child: Image.asset('assets/images/repo.png')),
+            Padding(padding: const EdgeInsets.only(bottom: 5)),
+            Text(
+                "sorry, we can't processing your request. please try again later "),
+          ],
+        ),
+        confirm: Container(
+          margin: const EdgeInsets.only(top: 5),
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0, 4),
+                blurRadius: 5.0,
+              ),
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: const [0.0, 1.0],
+              colors: [appThemeData.primaryColor, appThemeData.accentColor],
+            ),
+            color: appThemeData.primaryColor,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ElevatedButton(
+            style: FormHelper().buttonStyle(),
+            onPressed: () {
+              Get.offAllNamed(Routes.LOGIN);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+              child: Text(
+                'ok'.toUpperCase(),
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      );
       print(e);
     }
   }

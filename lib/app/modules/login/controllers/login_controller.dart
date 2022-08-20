@@ -1,13 +1,17 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_interpolation_to_compose_strings, await_only_futures, unrelated_type_equality_checks, avoid_unnecessary_containers, prefer_const_constructors
+
+import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:monitoring_kalori/app/modules/hitung_bmi/controllers/hitung_bmi_controller.dart';
 
 import '../../../data/theme/appTheme.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
+  final bmiC = Get.put(HitungBmiController());
   FirebaseAuth auth = FirebaseAuth.instance;
 
   final formKey = GlobalKey<FormState>();
@@ -15,6 +19,16 @@ class LoginController extends GetxController {
   late TextEditingController emailc, passwordc;
   var email = '';
   var password = '';
+
+  Future<void> isSignIn() async {
+    int timer = 3;
+    if (await auth.currentUser != null) {
+      bmiC.isHasBmi();
+    } else {
+      print("Going to Routes Login in " + timer.toString() + "seconds");
+      Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.LOGIN)});
+    }
+  }
 
   // ignore: non_constant_identifier_names
   String? ValidateEmail(String value) {
@@ -248,6 +262,10 @@ class LoginController extends GetxController {
         );
       }
     }
+  }
+
+  void signOut() {
+    auth.signOut();
   }
 
   void getRegister() {

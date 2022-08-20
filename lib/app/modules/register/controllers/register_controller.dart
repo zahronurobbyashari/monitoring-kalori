@@ -85,7 +85,7 @@ class RegisterController extends GetxController {
   bool isWhiteSpace(String value) => value.trim().isEmpty;
 
   Future<void> checkRegister() async {
-    CollectionReference userCalory = firestore.collection('users');
+    CollectionReference users = firestore.collection('users');
     // ignore: unused_local_variable
     final isValid = formKey.currentState!.validate();
     if (!isValid) {
@@ -101,9 +101,10 @@ class RegisterController extends GetxController {
       await credential.user!.sendEmailVerification();
       print(credential.user);
       try {
-        await userCalory
+        await users
             .doc(credential.user!.email)
             .set({
+              'bmi': 0,
               'uid': credential.user!.uid,
               'name': fullname,
               'email': credential.user!.email,

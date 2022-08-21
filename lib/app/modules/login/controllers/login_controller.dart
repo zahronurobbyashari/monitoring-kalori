@@ -266,6 +266,7 @@ class LoginController extends GetxController {
 
   void signOut() {
     auth.signOut();
+    Get.offAllNamed(Routes.LOGIN);
   }
 
   void getRegister() {

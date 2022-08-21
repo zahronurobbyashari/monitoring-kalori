@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_import, deprecated_member_use, empty_constructor_bodies
+// ignore_for_file: file_names, unused_import, deprecated_member_use, empty_constructor_bodies, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -78,6 +78,22 @@ class FormHelper {
       ),
       backgroundColor: MaterialStateProperty.all(Colors.transparent),
       shadowColor: MaterialStateProperty.all(Colors.transparent),
+    );
+  }
+
+  AppBar appBar([String title = "", String hintText = ""]) {
+    return AppBar(
+      title: Text(title),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: const [0.0, 1.0],
+            colors: [appThemeData.primaryColor, appThemeData.accentColor],
+          ),
+        ),
+      ),
     );
   }
 }

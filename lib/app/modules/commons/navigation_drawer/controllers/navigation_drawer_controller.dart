@@ -1,11 +1,35 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class NavigationDrawerController extends GetxController {
-  //TODO: Implement NavigationDrawerController
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
-  final count = 0.obs;
+  var fullname = '';
+  var email = '';
+
+  void getUser() async {
+    try {
+      await firestore
+          .collection('users')
+          .doc(auth.currentUser!.email)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        print("name = " + documentSnapshot.get('name'));
+        fullname = documentSnapshot.get('name');
+        email = documentSnapshot.get('email');
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void onInit() {
+    getUser();
     super.onInit();
   }
 
@@ -18,6 +42,4 @@ class NavigationDrawerController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

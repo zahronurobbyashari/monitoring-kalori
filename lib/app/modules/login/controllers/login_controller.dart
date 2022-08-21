@@ -20,13 +20,12 @@ class LoginController extends GetxController {
   var email = '';
   var password = '';
 
-  Future<void> isSignIn() async {
-    int timer = 3;
-    if (await auth.currentUser != null) {
-      bmiC.isHasBmi();
+  bool? isSignIn() {
+    if (auth.currentUser != null) {
+      print(auth.currentUser);
+      return true;
     } else {
-      print("Going to Routes Login in " + timer.toString() + "seconds");
-      Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.LOGIN)});
+      return false;
     }
   }
 
@@ -69,7 +68,15 @@ class LoginController extends GetxController {
       UserCredential credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (credential.user!.emailVerified) {
-        Get.offAllNamed(Routes.HITUNG_BMI);
+        if (bmiC.isHasBmi() == true) {
+          print("has bmi");
+
+          Get.offNamed(Routes.HOME);
+        } else {
+          print("has no bmi");
+
+          Get.offNamed(Routes.HITUNG_BMI);
+        }
       } else {
         Get.defaultDialog(
           title: 'Verification Email',

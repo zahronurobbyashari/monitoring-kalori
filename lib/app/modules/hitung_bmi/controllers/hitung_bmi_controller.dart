@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print, nullable_type_in_catch_clause
 
 import 'dart:async';
 import 'dart:math';
@@ -25,37 +25,27 @@ class HitungBmiController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  void isHasBmi() async {
-    int timer = 3;
-    try {
-      await firestore
-          .collection('users')
-          .doc(auth.currentUser!.email)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.get('bmi') != null) {
-          print(documentSnapshot.data());
-          print("Going to Routes Home in " + timer.toString() + "seconds");
-          Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.HOME)});
-        }
-        //TODO: [BUG] Bad state: field does not exist within the DocumentSnapshotPlatform
-        else {
-          print('gada');
-          print(
-              "Going to Routes Hitung Bmi in " + timer.toString() + "seconds");
-          Timer(Duration(seconds: timer),
-              () => {Get.offNamed(Routes.HITUNG_BMI)});
-        }
-      });
-    } catch (e) {
-      print('gada');
-      print("Going to Routes Hitung Bmi in " + timer.toString() + "seconds");
-      Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.HITUNG_BMI)});
-      print(e);
-    }
+  // TODO: Fixing [BUG] jadikan tidak future
+  bool? isHasBmi() {
+    firestore
+        .collection('users')
+        .doc(auth.currentUser!.email)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.get('bmi') > 0) {
+        print(documentSnapshot.get('bmi'));
+        print(documentSnapshot.data());
+        return true;
+      } else {
+        print("else=" + documentSnapshot.data().toString());
+        print("else=" + documentSnapshot.get('bmi'));
+        return false;
+      }
+    });
   }
 
   void onChangeGender(var gender) {
+    assert(gender != null);
     selectedGender.value = gender;
     print(selectedGender.value);
   }

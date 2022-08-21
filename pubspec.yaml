@@ -18,12 +18,25 @@ dependencies:
   flutter:
     sdk: flutter
 
+dependency_overrides:
+  firebase_messaging_platform_interface:
+  firebase_crashlytics_platform_interface:
+  cloud_firestore_platform_interface:
+  firebase_auth_platform_interface:
+  firebase_storage_platform_interface:
+  cloud_functions_platform_interface:
+  firebase_analytics_platform_interface:
+  firebase_remote_config_platform_interface:
+  firebase_dynamic_links_platform_interface:
+  firebase_performance_platform_interface:
+  firebase_app_installations_platform_interface:
+
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 
 flutter:
-  uses-material-design: true
   assets:
     - assets/images/
+  uses-material-design: true

@@ -22,7 +22,6 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
           margin: EdgeInsets.zero,
           child: ListView(
             shrinkWrap: true,
-            padding: EdgeInsets.zero,
             children: [
               buildDrawerHeader(),
               buildDrawerItem(
@@ -34,6 +33,16 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                     ? appThemeData.accentColor
                     : Colors.black,
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                child: Divider(
+                  thickness: 1,
+                  color: Get.currentRoute == Routes.HOME
+                      ? appThemeData.accentColor
+                      : null,
+                ),
+              ),
               buildDrawerItem(
                 icon: Icons.restaurant,
                 text: "Daftar Menu Makanan",
@@ -43,26 +52,52 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                     ? appThemeData.accentColor
                     : Colors.black,
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                child: Divider(
+                  thickness: 1,
+                  color: Get.currentRoute == Routes.DAFTAR_MENU_MAKANAN
+                      ? appThemeData.accentColor
+                      : null,
+                ),
+              ),
               buildDrawerItem(
                   icon: Icons.description,
                   text: "Keterangan Kalori",
                   onTap: () => navigate(2),
-                  tileColor: Get.currentRoute == Routes.KETERANGAN_KALORI
+                  tileColor: null,
+                  textIconColor: Get.currentRoute == Routes.KETERANGAN_KALORI
+                      ? appThemeData.accentColor
+                      : Colors.black),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                child: Divider(
+                  thickness: 1,
+                  color: Get.currentRoute == Routes.KETERANGAN_KALORI
                       ? appThemeData.accentColor
                       : null,
-                  textIconColor: Get.currentRoute == Routes.KETERANGAN_KALORI
-                      ? appThemeData.backgroundColor
-                      : Colors.black),
+                ),
+              ),
               buildDrawerItem(
                   icon: Icons.settings,
                   text: "Pengaturan",
                   onTap: () => navigate(3),
-                  tileColor: Get.currentRoute == Routes.PENGATURAN
+                  tileColor: null,
+                  textIconColor: Get.currentRoute == Routes.PENGATURAN
+                      ? appThemeData.accentColor
+                      : Colors.black),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                child: Divider(
+                  thickness: 1,
+                  color: Get.currentRoute == Routes.PENGATURAN
                       ? appThemeData.accentColor
                       : null,
-                  textIconColor: Get.currentRoute == Routes.PENGATURAN
-                      ? appThemeData.backgroundColor
-                      : Colors.black),
+                ),
+              ),
               buildDrawerItem(
                   icon: Icons.logout_outlined,
                   text: "Sign out",

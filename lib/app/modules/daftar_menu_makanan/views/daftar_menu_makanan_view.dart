@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../commons/navigation_drawer/views/navigation_drawer_view.dart';
 import '../controllers/daftar_menu_makanan_controller.dart';
 
 class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
@@ -9,6 +10,7 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavigationDrawerView(),
       appBar: AppBar(
         title: const Text('DaftarMenuMakananView'),
         centerTitle: true,

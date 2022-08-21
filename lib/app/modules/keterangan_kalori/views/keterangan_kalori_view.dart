@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../commons/navigation_drawer/views/navigation_drawer_view.dart';
 import '../controllers/keterangan_kalori_controller.dart';
 
 class KeteranganKaloriView extends GetView<KeteranganKaloriController> {
@@ -9,6 +10,7 @@ class KeteranganKaloriView extends GetView<KeteranganKaloriController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavigationDrawerView(),
       appBar: AppBar(
         title: const Text('KeteranganKaloriView'),
         centerTitle: true,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../data/theme/appTheme.dart';
 import '../../commons/navigation_drawer/views/navigation_drawer_view.dart';
 import '../controllers/pengaturan_controller.dart';
 
@@ -12,8 +13,17 @@ class PengaturanView extends GetView<PengaturanController> {
     return Scaffold(
       drawer: NavigationDrawerView(),
       appBar: AppBar(
-        title: const Text('PengaturanView'),
-        centerTitle: true,
+        title: Text('Pengaturan'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: const [0.0, 1.0],
+              colors: [appThemeData.primaryColor, appThemeData.accentColor],
+            ),
+          ),
+        ),
       ),
       body: Center(
         child: Text(

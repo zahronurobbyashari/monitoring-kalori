@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../data/theme/appTheme.dart';
 import '../../commons/navigation_drawer/views/navigation_drawer_view.dart';
 import '../controllers/kalori_dikonsumsi_controller.dart';
 
@@ -12,8 +13,17 @@ class KaloriDikonsumsiView extends GetView<KaloriDikonsumsiController> {
     return Scaffold(
       drawer: NavigationDrawerView(),
       appBar: AppBar(
-        title: const Text('KaloriDikonsumsiView'),
-        centerTitle: true,
+        title: Text('Kalori Dikonsumsi'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: const [0.0, 1.0],
+              colors: [appThemeData.primaryColor, appThemeData.accentColor],
+            ),
+          ),
+        ),
       ),
       body: Center(
         child: Text(

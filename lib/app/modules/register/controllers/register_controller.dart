@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unused_import, unnecessary_null_comparison, prefer_const_constructors
+// ignore_for_file: avoid_print, unused_import, unnecessary_null_comparison, prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -120,7 +120,7 @@ class RegisterController extends GetxController {
         content: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(child: Image.asset('assets/images/repo.png')),
+            Container(child: Image.asset('assets/images/vhbs.png')),
             Padding(padding: const EdgeInsets.only(bottom: 5)),
             Text(
                 'we already send the email verification to $email , please check your email'),
@@ -172,7 +172,11 @@ class RegisterController extends GetxController {
           title: 'Failed',
           content: Column(
             children: [
-              Container(child: Image.asset('assets/images/repo.png')),
+              Container(
+                  child: Icon(
+                Icons.cancel,
+                color: Colors.red,
+              )),
               Padding(padding: const EdgeInsets.only(bottom: 5)),
               Text('sorry, the email is already in use by another user'),
             ],

@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ import '../../../routes/app_pages.dart';
 class LoginController extends GetxController {
   final bmiC = Get.put(HitungBmiController());
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final formKey = GlobalKey<FormState>();
 
@@ -68,22 +70,26 @@ class LoginController extends GetxController {
       UserCredential credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (credential.user!.emailVerified) {
-        if (bmiC.isHasBmi() == true) {
-          print("has bmi");
-
-          Get.offNamed(Routes.HOME);
-        } else {
-          print("has no bmi");
-
-          Get.offNamed(Routes.HITUNG_BMI);
-        }
+        await firestore
+            .collection('users')
+            .doc(auth.currentUser!.email)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.get('bmi') > 0) {
+            print("Going to Routes Home");
+            Get.offNamed(Routes.HOME);
+          } else {
+            print("Going to Routes Hitung Bmi");
+            Get.offNamed(Routes.HITUNG_BMI);
+          }
+        });
       } else {
         Get.defaultDialog(
           title: 'Verification Email',
           content: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(child: Image.asset('assets/images/repo.png')),
+              Container(child: Image.asset('assets/images/vewc.png')),
               Padding(padding: const EdgeInsets.only(bottom: 5)),
               Text(
                 'we already send the email verification to $email , please check your email',
@@ -175,7 +181,7 @@ class LoginController extends GetxController {
           title: 'Failed',
           content: Column(
             children: [
-              Container(child: Image.asset('assets/images/repo.png')),
+              Container(child: Icon(Icons.cancel, color: Colors.red)),
               Padding(padding: const EdgeInsets.only(bottom: 5)),
               Text('sorry, your account not registered or invalid'),
             ],
@@ -224,7 +230,7 @@ class LoginController extends GetxController {
           title: 'Failed',
           content: Column(
             children: [
-              Container(child: Image.asset('assets/images/repo.png')),
+              Container(child: Icon(Icons.cancel, color: Colors.red)),
               Padding(padding: const EdgeInsets.only(bottom: 5)),
               Text('incorrect password , please check your correct password'),
             ],

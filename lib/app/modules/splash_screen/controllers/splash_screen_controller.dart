@@ -22,18 +22,8 @@ class SplashScreenController extends GetxController {
     super.onInit();
     print("on init");
     if (loginC.isSignIn() == true) {
-      print("userdata+ " + loginC.auth.currentUser.toString());
-      print(bmiC.isHasBmi());
-      if (bmiC.isHasBmi() == true) {
-        print("has bmi = " + bmiC.isHasBmi().toString());
-        print("Going to Routes Home in " + timer.toString() + " seconds");
-        Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.HOME)});
-      } else {
-        print("has no bmi = " + bmiC.isHasBmi().toString());
-        print("Going to Routes hitung bmi in " + timer.toString() + " seconds");
-        Timer(
-            Duration(seconds: timer), () => {Get.offNamed(Routes.HITUNG_BMI)});
-      }
+      print("Going to Routes Home in " + timer.toString() + " seconds");
+      Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.HOME)});
     } else {
       print("has no sign in");
       print("Going to Routes Login in " + timer.toString() + " seconds");

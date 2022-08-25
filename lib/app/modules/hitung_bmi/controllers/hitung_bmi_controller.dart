@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print, nullable_type_in_catch_clause
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print, nullable_type_in_catch_clause, avoid_unnecessary_containers, prefer_const_constructors
 
 import 'dart:async';
 import 'dart:math';
@@ -20,29 +20,11 @@ class HitungBmiController extends GetxController {
   var height = 0;
   var weight = 0;
   var age = 0;
+  var bmi = 0;
   String bmiLabel = '';
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
-
-  // TODO: Fixing [BUG] jadikan tidak future
-  bool? isHasBmi() {
-    firestore
-        .collection('users')
-        .doc(auth.currentUser!.email)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.get('bmi') > 0) {
-        print(documentSnapshot.get('bmi'));
-        print(documentSnapshot.data());
-        return true;
-      } else {
-        print("else=" + documentSnapshot.data().toString());
-        print("else=" + documentSnapshot.get('bmi'));
-        return false;
-      }
-    });
-  }
 
   void onChangeGender(var gender) {
     assert(gender != null);

@@ -11,6 +11,10 @@ abstract class Routes {
   static const PENGATURAN = _Paths.PENGATURAN;
   static const REGISTER = _Paths.REGISTER;
   static const LOGIN = _Paths.LOGIN;
+  static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
+  static const COMMONS = _Paths.COMMONS;
+  static const NAVIGATION_DRAWER = _Paths.COMMONS + _Paths.NAVIGATION_DRAWER;
+  static const NO = _Paths.COMMONS + _Paths.NO;
 }
 
 abstract class _Paths {
@@ -23,4 +27,8 @@ abstract class _Paths {
   static const PENGATURAN = '/pengaturan';
   static const REGISTER = '/register';
   static const LOGIN = '/login';
+  static const SPLASH_SCREEN = '/splash-screen';
+  static const COMMONS = '/commons';
+  static const NAVIGATION_DRAWER = '/navigation-drawer';
+  static const NO = '/no';
 }

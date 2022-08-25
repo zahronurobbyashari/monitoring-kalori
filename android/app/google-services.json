@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "186591609757",
+    "project_id": "monitoring-kalori",
+    "storage_bucket": "monitoring-kalori.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186591609757:android:536945f313e70555892574",
+        "android_client_info": {
+          "package_name": "com.example.monitoring_kalori"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186591609757-3fusre3cbuj3uo4qf6v58pdrnmj1s7c3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.monitoring_kalori",
+            "certificate_hash": "2a389f2683eea72bb9d2511ece040f34b654149a"
+          }
+        },
+        {
+          "client_id": "186591609757-9v7mac1c08mnfopjpkegn40ivajhc7tg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi36NlGR3pDXo8e5wht1aPaTwfJTo9o4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186591609757-9v7mac1c08mnfopjpkegn40ivajhc7tg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

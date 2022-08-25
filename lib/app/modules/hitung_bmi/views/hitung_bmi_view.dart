@@ -1,6 +1,11 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:monitoring_kalori/app/data/theme/appTheme.dart';
+import 'package:select_form_field/select_form_field.dart';
 
 import '../controllers/hitung_bmi_controller.dart';
 
@@ -8,17 +13,280 @@ class HitungBmiView extends GetView<HitungBmiController> {
   const HitungBmiView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    final List<Map<String, dynamic>> _items = [
+      {
+        'value': '1',
+        'label': 'Man',
+        'icon': Icon(Icons.man),
+      },
+      {
+        'value': '2',
+        'label': 'Woman',
+        'icon': Icon(Icons.woman),
+      },
+    ];
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HitungBmiView'),
-        centerTitle: true,
+        backgroundColor: appThemeData.backgroundColor,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: height * 0.13,
+                child: const HeaderWidget(),
+              ),
+              SafeArea(
+                  child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Column(children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: const Text(
+                      "Count BMI first to continue",
+                      style: TextStyle(
+                        fontSize: 45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                  Form(
+                      key: controller.bmiFormKey,
+                      child: Column(
+                        children: [
+                          heightField(),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          weightField(),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          ageField(),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                radioMale(),
+                                radioFemale(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            decoration:
+                                FormHelper().buttonBoxDecoration(context),
+                            child: ElevatedButton(
+                              style: FormHelper().buttonStyle(),
+                              onPressed: () {
+                                controller.calcBMI();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 40),
+                                child: Text(
+                                  'Submit'.toUpperCase(),
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ))
+                ]),
+              ))
+            ],
+          ),
+        ));
+  }
+
+  Widget heightField() {
+    return TextFormField(
+      controller: controller.heightc,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+        LengthLimitingTextInputFormatter(3),
+      ],
+      decoration: FormHelper().textInputDecoration(
+        'height (cm)',
+        'enter your height',
       ),
-      body: Center(
-        child: Text(
-          'HitungBmiView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      onSaved: (value) => controller.height = int.parse(value!),
+      keyboardType: TextInputType.number,
+      validator: (value) => controller.Validates(value!),
+    );
+  }
+
+  Widget weightField() {
+    return TextFormField(
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(3),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+      ],
+      controller: controller.weightc,
+      decoration: FormHelper().textInputDecoration(
+        'weight(kg)',
+        'enter your weight',
+      ),
+      onSaved: (value) => controller.weight = int.parse(value!),
+      keyboardType: TextInputType.number,
+      validator: (value) => controller.Validates(value!),
+    );
+  }
+
+  Widget ageField() {
+    return TextFormField(
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+        LengthLimitingTextInputFormatter(2),
+      ],
+      controller: controller.agec,
+      decoration: FormHelper().textInputDecoration(
+        'Umur',
+        'enter your umur',
+      ),
+      onSaved: (value) => controller.age = int.parse(value!),
+      keyboardType: TextInputType.number,
+      validator: (value) => controller.Validates(value!),
+    );
+  }
+
+  Widget radioMale() {
+    return Row(
+      children: [
+        Obx(() => Radio(
+              value: "Male",
+              groupValue: controller.selectedGender.value,
+              onChanged: (value) {
+                controller.onChangeGender(value);
+              },
+              activeColor: appThemeData.accentColor,
+              fillColor: MaterialStateProperty.all(appThemeData.primaryColor),
+            )),
+        Text("Male"),
+      ],
+    );
+  }
+
+  Widget radioFemale() {
+    return Row(
+      children: [
+        Obx(() => Radio(
+              value: "Female",
+              groupValue: controller.selectedGender.value,
+              onChanged: (value) {
+                controller.onChangeGender(value);
+              },
+              activeColor: appThemeData.accentColor,
+              fillColor: MaterialStateProperty.all(appThemeData.primaryColor),
+            )),
+        Text("Female"),
+      ],
+    );
+  }
+}
+
+class HeaderWidget extends StatefulWidget {
+  const HeaderWidget({Key? key}) : super(key: key);
+
+  @override
+  State<HeaderWidget> createState() => _HeaderWidgetState();
+}
+
+class _HeaderWidgetState extends State<HeaderWidget> {
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    return Container(
+      alignment: Alignment.topRight,
+      child: Stack(
+        children: [
+          ClipPath(
+            clipper: BottomClipper(),
+            child: Container(
+              height: height * 0.13,
+              width: width * 0.4,
+              decoration: BoxDecoration(
+                color: appThemeData.primaryColor,
+              ),
+            ),
+          ),
+          ClipPath(
+            clipper: TopClipper(),
+            child: Container(
+              alignment: Alignment.topRight,
+              height: height * 0.13,
+              width: width * 0.4,
+              decoration: BoxDecoration(
+                color: appThemeData.accentColor,
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+}
+
+class BottomClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.2);
+
+    // path.quadraticBezierTo(0, size.height * 0.2, , size.height);
+
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class TopClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.4);
+
+    // path.quadraticBezierTo(0, size.height * 0.2, , size.height);
+
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
   }
 }

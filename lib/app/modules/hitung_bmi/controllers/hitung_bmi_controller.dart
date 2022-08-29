@@ -21,6 +21,7 @@ class HitungBmiController extends GetxController {
   var weight = 0;
   var age = 0;
   var bmi = 0;
+  var berat_badan_ideal = 0.0;
   String bmiLabel = '';
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -51,7 +52,7 @@ class HitungBmiController extends GetxController {
 
     double bmi = weight / pow(height / 100, 2);
 
-    if (bmi == 0 && bmi <= 15.0) {
+    if (bmi >= 0 && bmi <= 15.0) {
       bmiLabel = "terlalu sangat kurus";
     } else if (bmi >= 15.0 && bmi <= 16.0) {
       bmiLabel = "sangat kurus";
@@ -68,6 +69,7 @@ class HitungBmiController extends GetxController {
     } else {
       bmiLabel = "obesitas";
     }
+
     try {
       await users
           .doc(auth.currentUser!.email)
@@ -78,7 +80,10 @@ class HitungBmiController extends GetxController {
               'age': age,
               'gender': selectedGender.toString(),
               'bmi': bmi,
-              'bmi label': bmiLabel
+              'bmi label': bmiLabel,
+              'berat badan ideal': selectedGender.toString() == 'male'
+                  ? (height - 100) - ((height - 100) * 10 / 100)
+                  : (height - 100) - ((height - 100) * 15 / 100),
             },
             SetOptions(merge: true),
           )

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
+import '../../commons/navigation_drawer/controllers/navigation_drawer_controller.dart';
+
 class HomeController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -15,6 +17,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     getFoodItems();
   }
 

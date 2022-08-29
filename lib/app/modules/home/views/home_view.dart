@@ -39,7 +39,7 @@ class HomeView extends GetView<HomeController> {
             height: height * 0.07,
           ),
           Container(
-            height: height * 0.4,
+            height: height * 0.45,
             width: width * 0.7,
             child: KkalIndicator(),
           ),
@@ -183,43 +183,39 @@ class HomeView extends GetView<HomeController> {
                   'terlalu sangat kurus' ||
               Get.find<NavigationDrawerController>().status_bmi ==
                   'sangat kurus' ||
-              Get.find<NavigationDrawerController>().status_bmi == 'kurus' ||
-              Get.find<NavigationDrawerController>().status_bmi == 'gemuk' ||
-              Get.find<NavigationDrawerController>().status_bmi ==
-                  'cukup gemuk' ||
+              Get.find<NavigationDrawerController>().status_bmi == 'obesitas' ||
               Get.find<NavigationDrawerController>().status_bmi ==
                   'sangat gemuk' ||
-              Get.find<NavigationDrawerController>().status_bmi == 'obesitas'
+              Get.find<NavigationDrawerController>().status_bmi == 'cukup gemuk'
           ? Colors.red
-          : Colors.green,
+          : Get.find<NavigationDrawerController>().status_bmi == 'kurus' ||
+                  Get.find<NavigationDrawerController>().status_bmi == 'gemuk'
+              ? appThemeData.accentColor
+              : Colors.green,
 
-      percent: 0.7,
+      percent: double.parse(Get.find<NavigationDrawerController>().weight) /
+                  double.parse(Get.find<NavigationDrawerController>()
+                      .berat_badan_ideal) >
+              1
+          ? 1
+          : double.parse(Get.find<NavigationDrawerController>().weight) /
+              double.parse(
+                  Get.find<NavigationDrawerController>().berat_badan_ideal),
       center: Text(
-        Get.find<NavigationDrawerController>().status_bmi,
+        "Berat anda saat ini " +
+            Get.find<NavigationDrawerController>().weight.toString() +
+            " kg",
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ),
       footer: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Text(
-          Get
-                              .find<NavigationDrawerController>()
-                          .status_bmi ==
-                      'terlalu sangat kurus' ||
-                  Get.find<NavigationDrawerController>().status_bmi ==
-                      'sangat kurus' ||
-                  Get.find<NavigationDrawerController>().status_bmi == 'kurus'
-              ? "Anda harus makan tot, anda ini " +
-                  Get.find<NavigationDrawerController>().status_bmi
-              : Get.find<NavigationDrawerController>().status_bmi == 'gemuk' ||
-                      Get.find<NavigationDrawerController>().status_bmi ==
-                          'cukup gemuk' ||
-                      Get.find<NavigationDrawerController>().status_bmi ==
-                          'sangat gemuk' ||
-                      Get.find<NavigationDrawerController>().status_bmi ==
-                          'obesitas'
-                  ? 'Anda harus olahraga tot , anda ini ' +
-                      Get.find<NavigationDrawerController>().status_bmi
-                  : 'Anda normal',
+          Get.find<NavigationDrawerController>().status_bmi == 'normal'
+              ? 'Anda ideal pertahankan pola makan dan olahraga anda'
+              : "Saat ini anda " +
+                  Get.find<NavigationDrawerController>().status_bmi +
+                  " Anda harus mencapai berat ideal anda yaitu : " +
+                  Get.find<NavigationDrawerController>().berat_badan_ideal,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
         ),
       ),

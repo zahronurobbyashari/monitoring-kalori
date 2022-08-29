@@ -4,9 +4,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:monitoring_kalori/app/modules/commons/navigation_drawer/controllers/navigation_drawer_controller.dart';
+
 import 'package:monitoring_kalori/app/routes/app_pages.dart';
 
+import '../../commons/navigation_drawer/controllers/navigation_drawer_controller.dart';
 import '../../hitung_bmi/controllers/hitung_bmi_controller.dart';
 import '../../login/controllers/login_controller.dart';
 
@@ -16,9 +17,9 @@ class SplashScreenController extends GetxController {
 
   @override
   void onInit() {
-    navC;
     final loginC = Get.put(LoginController());
     final bmiC = Get.put(HitungBmiController());
+    navC;
 
     super.onInit();
     print("on init");

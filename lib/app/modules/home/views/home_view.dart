@@ -62,8 +62,7 @@ class HomeView extends GetView<HomeController> {
                                     margin: const EdgeInsets.only(top: 21),
                                     width: width * 0.23,
                                     child: gramField()),
-                                Container(
-                                    width: width * 0.43, child: foodsField()),
+                                Container(width: width * 0.43, child: test()),
                               ],
                             )
                           ],
@@ -116,58 +115,59 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget foodsField() {
-    return DropdownButtonFormField2(
-      decoration: InputDecoration(
-        isDense: true,
-        contentPadding: EdgeInsets.zero,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-      ),
-      isExpanded: true,
-      hint: const Text(
-        'Choose food',
-        style: TextStyle(fontSize: 14),
-      ),
-      icon: const Icon(
-        Icons.arrow_drop_down,
-        color: Colors.black45,
-      ),
-      iconSize: 30,
-      buttonHeight: 50,
-      buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-      dropdownDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      items: controller.foodItems
-          .map((item) => DropdownMenuItem<String>(
-                value: item.toString(),
-                child: Text(
-                  item.toString(),
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ))
-          .toList(),
-      validator: (value) {
-        if (value == null) {
-          return 'Please select gender.';
-        }
-      },
-      onChanged: (value) {
-        //Do something when changing the item if you want.
-      },
-      onSaved: (value) {},
-    );
-  }
+  // Widget foodsField() {
+  //   return DropdownButtonFormField2(
+  //     decoration: InputDecoration(
+  //       isDense: true,
+  //       contentPadding: EdgeInsets.zero,
+  //       border: OutlineInputBorder(
+  //         borderRadius: BorderRadius.circular(15),
+  //       ),
+  //     ),
+  //     isExpanded: true,
+  //     hint: const Text(
+  //       'Choose food',
+  //       style: TextStyle(fontSize: 14),
+  //     ),
+  //     icon: const Icon(
+  //       Icons.arrow_drop_down,
+  //       color: Colors.black45,
+  //     ),
+  //     iconSize: 30,
+  //     buttonHeight: 50,
+  //     buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+  //     dropdownDecoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(15),
+  //     ),
+  //     items: controller.foodItems
+  //         .map((item) => DropdownMenuItem<String>(
+  //               value: item.toString(),
+  //               child: Text(
+  //                 item.toString(),
+  //                 style: const TextStyle(
+  //                   fontSize: 14,
+  //                 ),
+  //               ),
+  //             ))
+  //         .toList(),
+  //     validator: (value) {
+  //       if (value == null) {
+  //         return 'Please select gender.';
+  //       }
+  //     },
+  //     onChanged: (value) {
+  //       //Do something when changing the item if you want.
+  //     },
+  //     onSaved: (value) {},
+  //   );
+  // }
 
   Widget test() {
     return FutureBuilder<QuerySnapshot<Object?>>(
         future: controller.getFoodItems(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            print(snapshot);
             var allFoods = snapshot.data!.docs;
             return DropdownButtonFormField2(
                 decoration: InputDecoration(
@@ -192,11 +192,11 @@ class HomeView extends GetView<HomeController> {
                 dropdownDecoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                items: controller.foodItems
+                items: allFoods
                     .map((item) => DropdownMenuItem<String>(
-                          value: item.toString(),
+                          value: item.id,
                           child: Text(
-                            item.toString(),
+                            item.get('food_name'),
                             style: const TextStyle(
                               fontSize: 14,
                             ),
@@ -205,10 +205,11 @@ class HomeView extends GetView<HomeController> {
                     .toList(),
                 validator: (value) {
                   if (value == null) {
-                    return 'Please select gender.';
+                    return 'Please select food.';
                   }
                 },
                 onChanged: (value) {
+                  print(value);
                   //Do something when changing the item if you want.
                 },
                 onSaved: (value) {});

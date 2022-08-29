@@ -9,18 +9,19 @@ class HomeController extends GetxController {
   final count = 0.obs;
   var gram = 14.toString();
 
-  List<Object> foodItems = ['nasi', 'nasi kotak', 'nasi uduk'];
+  List<Object> foodItems = [];
 
-  Future<QuerySnapshot<Object?>> getFoodItems() async {
+  Future<QuerySnapshot<Object?>> getFoodItemss() async {
     CollectionReference foods = firestore.collection('foods');
 
     return foods.get();
   }
 
-  Future getFoodItemss() async {
+  Future<QuerySnapshot<Object?>> getFoodItems() async {
     var data = await firestore.collection('foods').get();
     foodItems = List.from(data.docs.map((doc) => Food.fromSnapshot(doc)));
-    print(data);
+
+    return data;
   }
 
   @override

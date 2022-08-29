@@ -35,8 +35,12 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                 ),
                 Container(
+                  alignment: Alignment.topRight,
                   height: height * 0.3,
-                  child: const HeaderWidget(),
+                  child: Image.asset(
+                    'assets/images/test.png',
+                    height: height * 0.17,
+                  ),
                 ),
               ],
             ),

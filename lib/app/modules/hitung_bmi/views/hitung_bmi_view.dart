@@ -34,8 +34,12 @@ class HitungBmiView extends GetView<HitungBmiController> {
           child: Column(
             children: [
               Container(
-                height: height * 0.13,
-                child: const HeaderWidget(),
+                alignment: Alignment.topRight,
+                height: height * 0.3,
+                child: Image.asset(
+                  'assets/images/test.png',
+                  height: height * 0.17,
+                ),
               ),
               SafeArea(
                   child: Container(

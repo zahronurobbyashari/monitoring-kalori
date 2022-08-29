@@ -35,8 +35,12 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                 ),
                 Container(
+                  alignment: Alignment.topRight,
                   height: height * 0.3,
-                  child: const HeaderWidget(),
+                  child: Image.asset(
+                    'assets/images/test.png',
+                    height: height * 0.17,
+                  ),
                 ),
               ],
             ),
@@ -186,93 +190,5 @@ class RegisterView extends GetView<RegisterController> {
       onSaved: (value) => controller.confirmPassword = value!,
       validator: (value) => controller.ValidateConfirmPassword(value!),
     );
-  }
-}
-
-class HeaderWidget extends StatefulWidget {
-  const HeaderWidget({Key? key}) : super(key: key);
-
-  @override
-  State<HeaderWidget> createState() => _HeaderWidgetState();
-}
-
-class _HeaderWidgetState extends State<HeaderWidget> {
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
-    return Container(
-      alignment: Alignment.topRight,
-      child: Stack(
-        children: [
-          ClipPath(
-            clipper: BottomClipper(),
-            child: Container(
-              height: height * 0.13,
-              width: width * 0.4,
-              decoration: BoxDecoration(
-                color: appThemeData.primaryColor,
-              ),
-            ),
-          ),
-          ClipPath(
-            clipper: TopClipper(),
-            child: Container(
-              alignment: Alignment.topRight,
-              height: height * 0.13,
-              width: width * 0.4,
-              decoration: BoxDecoration(
-                color: appThemeData.accentColor,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BottomClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-
-    path.moveTo(0, size.height * 0.2);
-
-    // path.quadraticBezierTo(0, size.height * 0.2, , size.height);
-
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0);
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
-  }
-}
-
-class TopClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-
-    path.moveTo(0, size.height * 0.4);
-
-    // path.quadraticBezierTo(0, size.height * 0.2, , size.height);
-
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0);
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
   }
 }

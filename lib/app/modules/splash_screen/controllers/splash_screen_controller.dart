@@ -12,10 +12,11 @@ import '../../login/controllers/login_controller.dart';
 
 class SplashScreenController extends GetxController {
   int timer = 3;
+  final navC = Get.put(NavigationDrawerController(), permanent: true);
 
   @override
   void onInit() {
-    Get.put(NavigationDrawerController(), permanent: true);
+    navC;
     final loginC = Get.put(LoginController());
     final bmiC = Get.put(HitungBmiController());
 

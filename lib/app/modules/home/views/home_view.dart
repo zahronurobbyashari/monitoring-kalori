@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_interpolation_to_compose_strings
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:monitoring_kalori/app/data/theme/appTheme.dart';
+import 'package:monitoring_kalori/app/modules/commons/navigation_drawer/controllers/navigation_drawer_controller.dart';
 import 'package:monitoring_kalori/app/modules/commons/navigation_drawer/views/navigation_drawer_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../controllers/home_controller.dart';
@@ -148,7 +149,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 items: allFoods
                     .map((item) => DropdownMenuItem<String>(
-                          value: item.id,
+                          value: item.get('multiplier'),
                           child: Text(
                             item.get('food_name'),
                             style: const TextStyle(
@@ -177,15 +178,50 @@ class HomeView extends GetView<HomeController> {
       radius: 150,
       animation: true,
       circularStrokeCap: CircularStrokeCap.round,
-      progressColor: appThemeData.accentColor,
+      // progressColor: appThemeData.accentColor,
+      progressColor: Get.find<NavigationDrawerController>().status_bmi ==
+                  'terlalu sangat kurus' ||
+              Get.find<NavigationDrawerController>().status_bmi ==
+                  'sangat kurus' ||
+              Get.find<NavigationDrawerController>().status_bmi == 'kurus' ||
+              Get.find<NavigationDrawerController>().status_bmi == 'gemuk' ||
+              Get.find<NavigationDrawerController>().status_bmi ==
+                  'cukup gemuk' ||
+              Get.find<NavigationDrawerController>().status_bmi ==
+                  'sangat gemuk' ||
+              Get.find<NavigationDrawerController>().status_bmi == 'obesitas'
+          ? Colors.red
+          : Colors.green,
+
       percent: 0.7,
       center: Text(
-        "880 kkal",
+        Get.find<NavigationDrawerController>().status_bmi,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ),
-      footer: Text(
-        "Kalori ",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+      footer: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Text(
+          Get
+                              .find<NavigationDrawerController>()
+                          .status_bmi ==
+                      'terlalu sangat kurus' ||
+                  Get.find<NavigationDrawerController>().status_bmi ==
+                      'sangat kurus' ||
+                  Get.find<NavigationDrawerController>().status_bmi == 'kurus'
+              ? "Anda harus makan tot, anda ini " +
+                  Get.find<NavigationDrawerController>().status_bmi
+              : Get.find<NavigationDrawerController>().status_bmi == 'gemuk' ||
+                      Get.find<NavigationDrawerController>().status_bmi ==
+                          'cukup gemuk' ||
+                      Get.find<NavigationDrawerController>().status_bmi ==
+                          'sangat gemuk' ||
+                      Get.find<NavigationDrawerController>().status_bmi ==
+                          'obesitas'
+                  ? 'Anda harus olahraga tot , anda ini ' +
+                      Get.find<NavigationDrawerController>().status_bmi
+                  : 'Anda normal',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+        ),
       ),
     );
   }

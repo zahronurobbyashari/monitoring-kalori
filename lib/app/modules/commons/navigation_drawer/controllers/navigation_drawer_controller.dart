@@ -10,6 +10,7 @@ class NavigationDrawerController extends GetxController {
 
   var fullname = '';
   var email = '';
+  var status_bmi = '';
 
   void getUser() async {
     try {
@@ -18,9 +19,9 @@ class NavigationDrawerController extends GetxController {
           .doc(auth.currentUser!.email)
           .get()
           .then((DocumentSnapshot documentSnapshot) {
-        print("name = " + documentSnapshot.get('name'));
         fullname = documentSnapshot.get('name');
         email = documentSnapshot.get('email');
+        status_bmi = documentSnapshot.get('bmi label');
       });
     } catch (e) {
       print(e);

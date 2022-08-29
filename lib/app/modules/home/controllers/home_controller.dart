@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  final count = 0.obs;
   var gram = 14.toString();
 
   Future<QuerySnapshot<Object?>> getFoodItems() async {
@@ -28,6 +27,4 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

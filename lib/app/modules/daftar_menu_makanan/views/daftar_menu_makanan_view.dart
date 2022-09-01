@@ -28,31 +28,25 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot<Object?>>(
-                  stream: controller.getFoods(),
-                  builder: ((context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      var listFoods = snapshot.data!.docs;
-                      return ListView.builder(
-                        itemCount: listFoods.length,
-                        itemBuilder: (context, index) => ListTile(
-                          title: Text(
-                              "${(listFoods[index].data() as Map<String, dynamic>)["food_name"]}"),
-                          subtitle: Text(
-                            "kalori : ${listFoods[index].get('multiplier')} per 1 gram",
-                          ),
-                        ),
-                      );
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }))
-            ],
-          ),
-        ));
+        body: StreamBuilder<QuerySnapshot<Object?>>(
+            stream: controller.getFoods(),
+            builder: ((context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                var listFoods = snapshot.data!.docs;
+                return ListView.builder(
+                  itemCount: listFoods.length,
+                  itemBuilder: (context, index) => ListTile(
+                    title: Text(
+                        "${(listFoods[index].data() as Map<String, dynamic>)["food_name"]}"),
+                    subtitle: Text(
+                      "kalori : ${listFoods[index].get('multiplier')} per 1 gram",
+                    ),
+                  ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            })));
   }
 }

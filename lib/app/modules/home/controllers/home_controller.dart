@@ -1,7 +1,7 @@
+// ignore_for_file: unnecessary_overrides
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-
-import '../../commons/navigation_drawer/controllers/navigation_drawer_controller.dart';
 
 class HomeController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;

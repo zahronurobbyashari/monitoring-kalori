@@ -1,11 +1,10 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors, deprecated_member_use, unused_local_variable, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:monitoring_kalori/app/data/theme/appTheme.dart';
-import 'package:select_form_field/select_form_field.dart';
 
 import '../controllers/hitung_bmi_controller.dart';
 

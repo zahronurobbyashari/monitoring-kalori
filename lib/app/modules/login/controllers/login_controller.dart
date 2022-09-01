@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, prefer_interpolation_to_compose_strings, await_only_futures, unrelated_type_equality_checks, avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: avoid_print, prefer_interpolation_to_compose_strings, await_only_futures, unrelated_type_equality_checks, avoid_unnecessary_containers, prefer_const_constructors, deprecated_member_use
 
 import 'dart:async';
 

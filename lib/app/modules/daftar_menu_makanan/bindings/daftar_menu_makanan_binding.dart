@@ -5,8 +5,6 @@ import '../controllers/daftar_menu_makanan_controller.dart';
 class DaftarMenuMakananBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DaftarMenuMakananController>(
-      () => DaftarMenuMakananController(),
-    );
+    Get.put(DaftarMenuMakananController());
   }
 }

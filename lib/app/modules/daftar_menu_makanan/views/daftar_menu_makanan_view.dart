@@ -31,21 +31,26 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
         body: StreamBuilder<QuerySnapshot<Object?>>(
             stream: controller.getFoods(),
             builder: ((context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                var listFoods = snapshot.data!.docs;
-                return ListView.builder(
-                  itemCount: listFoods.length,
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text(
-                        "${(listFoods[index].data() as Map<String, dynamic>)["food_name"]}"),
-                    subtitle: Text(
-                      "kalori : ${listFoods[index].get('multiplier')} per 1 gram",
-                    ),
-                  ),
+              if (snapshot.hasError) {
+                return Text("Error");
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
                 );
               }
-              return Center(
-                child: CircularProgressIndicator(),
+
+              var listFoods = snapshot.data!.docs;
+              return ListView.builder(
+                itemCount: listFoods.length,
+                itemBuilder: (context, index) => ListTile(
+                  title: Text(
+                      "${(listFoods[index].data() as Map<String, dynamic>)["food_name"]}"),
+                  subtitle: Text(
+                    "kalori : ${listFoods[index].get('multiplier')} per 1 gram",
+                  ),
+                ),
               );
             })));
   }

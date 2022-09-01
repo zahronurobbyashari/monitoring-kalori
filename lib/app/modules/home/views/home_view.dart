@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_interpolation_to_compose_strings, sized_box_for_whitespace, avoid_print, non_constant_identifier_names, body_might_complete_normally_nullable
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_interpolation_to_compose_strings, sized_box_for_whitespace, avoid_print, non_constant_identifier_names, body_might_complete_normally_nullable, unnecessary_cast
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -174,51 +174,57 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget KkalIndicator() {
-    return CircularPercentIndicator(
-      radius: 150,
-      animation: true,
-      circularStrokeCap: CircularStrokeCap.round,
-      // progressColor: appThemeData.accentColor,
-      progressColor: Get.find<NavigationDrawerController>().status_bmi ==
-                  'terlalu sangat kurus' ||
-              Get.find<NavigationDrawerController>().status_bmi ==
-                  'sangat kurus' ||
-              Get.find<NavigationDrawerController>().status_bmi == 'obesitas' ||
-              Get.find<NavigationDrawerController>().status_bmi ==
-                  'sangat gemuk' ||
-              Get.find<NavigationDrawerController>().status_bmi == 'cukup gemuk'
-          ? Colors.red
-          : Get.find<NavigationDrawerController>().status_bmi == 'kurus' ||
-                  Get.find<NavigationDrawerController>().status_bmi == 'gemuk'
-              ? appThemeData.accentColor
-              : Colors.green,
+    return StreamBuilder<DocumentSnapshot<Object?>>(
+      stream: controller.navC.getuser(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text("Error");
+        }
 
-      percent: double.parse(Get.find<NavigationDrawerController>().weight) /
-                  double.parse(Get.find<NavigationDrawerController>()
-                      .berat_badan_ideal) >
-              1
-          ? 1
-          : double.parse(Get.find<NavigationDrawerController>().weight) /
-              double.parse(
-                  Get.find<NavigationDrawerController>().berat_badan_ideal),
-      center: Text(
-        "Berat anda saat ini " +
-            Get.find<NavigationDrawerController>().weight.toString() +
-            " kg",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-      ),
-      footer: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Text(
-          Get.find<NavigationDrawerController>().status_bmi == 'normal'
-              ? 'Anda ideal pertahankan pola makan dan olahraga anda'
-              : "Saat ini anda " +
-                  Get.find<NavigationDrawerController>().status_bmi +
-                  " Anda harus mencapai berat ideal anda yaitu : " +
-                  Get.find<NavigationDrawerController>().berat_badan_ideal,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-        ),
-      ),
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        var user = snapshot.data!.data();
+        var status_bmi = (user as Map<String, dynamic>)["bmi label"];
+        var weight = (user as Map<String, dynamic>)["weight"];
+        var berat_ideal = (user as Map<String, dynamic>)["berat badan ideal"];
+
+        return CircularPercentIndicator(
+          radius: 150, //     animation: true,
+          circularStrokeCap: CircularStrokeCap.round,
+
+          progressColor: status_bmi == 'terlalu sangat kurus' ||
+                  status_bmi == 'sangat kurus' ||
+                  status_bmi == 'obesitas' ||
+                  status_bmi == 'sangat gemuk' ||
+                  status_bmi == 'cukup gemuk'
+              ? Colors.red
+              : status_bmi == 'kurus' || status_bmi == 'gemuk'
+                  ? appThemeData.accentColor
+                  : Colors.green,
+
+          percent: weight / berat_ideal > 1 ? 1 : weight / berat_ideal,
+          center: Text(
+            "Berat anda saat ini " + weight.toString() + " kg",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+          ),
+          footer: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text(
+              status_bmi == 'normal'
+                  ? 'Anda ideal pertahankan pola makan dan olahraga anda'
+                  : "Saat ini anda " +
+                      status_bmi +
+                      " Anda harus mencapai berat ideal anda yaitu : " +
+                      berat_ideal.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+            ),
+          ),
+        );
+      },
     );
   }
 }

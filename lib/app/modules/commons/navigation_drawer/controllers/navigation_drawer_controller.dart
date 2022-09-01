@@ -33,6 +33,12 @@ class NavigationDrawerController extends GetxController {
     }
   }
 
+  Stream<DocumentSnapshot<Object?>> getuser() {
+    CollectionReference user = firestore.collection("users");
+
+    return user.doc(auth.currentUser!.email).snapshots();
+  }
+
   @override
   void onInit() {
     getUser();

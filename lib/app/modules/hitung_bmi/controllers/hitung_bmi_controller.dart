@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print, nullable_type_in_catch_clause, avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print, nullable_type_in_catch_clause, avoid_unnecessary_containers, prefer_const_constructors, deprecated_member_use, non_constant_identifier_names, unnecessary_overrides
 
-import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

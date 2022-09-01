@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, unused_local_variable
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

@@ -1,9 +1,8 @@
+// ignore_for_file: unnecessary_overrides
+
 import 'package:get/get.dart';
 
 class DaftarMenuMakananController extends GetxController {
-  //TODO: Implement DaftarMenuMakananController
-
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -18,6 +17,4 @@ class DaftarMenuMakananController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

@@ -6,13 +6,7 @@ import 'package:get/get.dart';
 class DaftarMenuMakananController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<QuerySnapshot<Object?>> getFoods() async {
-    CollectionReference foods = firestore.collection('foods');
-
-    return foods.get();
-  }
-
-  Stream<QuerySnapshot<Object?>> foods() {
+  Stream<QuerySnapshot<Object?>> getFoods() {
     CollectionReference foods = firestore.collection('foods');
 
     return foods.snapshots();

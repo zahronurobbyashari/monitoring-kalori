@@ -32,7 +32,7 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot<Object?>>(
-                  stream: controller.foods(),
+                  stream: controller.getFoods(),
                   builder: ((context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       var listFoods = snapshot.data!.docs;

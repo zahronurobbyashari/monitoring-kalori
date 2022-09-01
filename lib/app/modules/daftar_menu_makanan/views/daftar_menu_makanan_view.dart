@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -30,15 +31,26 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text("Food Name"),
-                  subtitle: Text(
-                    "Kalori per 1 gram",
-                  ),
-                ),
-              ),
+              StreamBuilder<QuerySnapshot<Object?>>(
+                  stream: controller.foods(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      var listFoods = snapshot.data!.docs;
+                      return ListView.builder(
+                        itemCount: listFoods.length,
+                        itemBuilder: (context, index) => ListTile(
+                          title: Text(
+                              "${(listFoods[index].data() as Map<String, dynamic>)["food_name"]}"),
+                          subtitle: Text(
+                            "kalori : ${listFoods[index].get('multiplier')} per 1 gram",
+                          ),
+                        ),
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }))
             ],
           ),
         ));

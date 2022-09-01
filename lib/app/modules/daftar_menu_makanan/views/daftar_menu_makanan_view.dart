@@ -13,26 +13,34 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationDrawerView(),
-      appBar: AppBar(
-        title: Text('Daftar Menu Makanan'),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: const [0.0, 1.0],
-              colors: [appThemeData.primaryColor, appThemeData.accentColor],
+        drawer: NavigationDrawerView(),
+        appBar: AppBar(
+          title: Text('Daftar Menu Makanan'),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: const [0.0, 1.0],
+                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+              ),
             ),
           ),
         ),
-      ),
-      body: Center(
-        child: Text(
-          'DaftarMenuMakananView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) => ListTile(
+                  title: Text("Food Name"),
+                  subtitle: Text(
+                    "Kalori per 1 gram",
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

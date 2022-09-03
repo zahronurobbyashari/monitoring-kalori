@@ -48,7 +48,12 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
                   title: Text(
                       "${(listFoods[index].data() as Map<String, dynamic>)["food_name"]}"),
                   subtitle: Text(
-                    "kalori : ${listFoods[index].get('multiplier')} per 1 gram",
+                    // ignore: prefer_interpolation_to_compose_strings
+                    "kalori : " +
+                        (double.parse(listFoods[index].get('multiplier')) * 100)
+                            .toInt()
+                            .toString() +
+                        " kkal per 100 gram",
                   ),
                 ),
               );

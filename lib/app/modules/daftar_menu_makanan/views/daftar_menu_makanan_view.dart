@@ -51,8 +51,9 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
                     // ignore: prefer_interpolation_to_compose_strings
                     "kalori : " +
                         (double.parse(listFoods[index].get('multiplier')) * 100)
+                            .toInt()
                             .toString() +
-                        " per 100 gram",
+                        " kkal per 100 gram",
                   ),
                 ),
               );

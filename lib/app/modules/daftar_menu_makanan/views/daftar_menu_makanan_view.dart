@@ -14,49 +14,51 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: NavigationDrawerView(),
-        appBar: AppBar(
-          title: Text('Daftar Menu Makanan'),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: const [0.0, 1.0],
-                colors: [appThemeData.primaryColor, appThemeData.accentColor],
-              ),
+      drawer: NavigationDrawerView(),
+      appBar: AppBar(
+        title: Text('Daftar Menu Makanan'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: const [0.0, 1.0],
+              colors: [appThemeData.primaryColor, appThemeData.accentColor],
             ),
           ),
         ),
-        body: StreamBuilder<QuerySnapshot<Object?>>(
-            stream: controller.getFoods(),
-            builder: ((context, snapshot) {
-              if (snapshot.hasError) {
-                return Text("Error");
-              }
+      ),
+      body: StreamBuilder<QuerySnapshot<Object?>>(
+        stream: controller.getFoods(),
+        builder: ((context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("Error");
+          }
 
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-              var listFoods = snapshot.data!.docs;
-              return ListView.builder(
-                itemCount: listFoods.length,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(
-                      "${(listFoods[index].data() as Map<String, dynamic>)["food_name"]}"),
-                  subtitle: Text(
-                    // ignore: prefer_interpolation_to_compose_strings
-                    "kalori : " +
-                        (double.parse(listFoods[index].get('multiplier')) * 100)
-                            .toInt()
-                            .toString() +
-                        " kkal per 100 gram",
-                  ),
-                ),
-              );
-            })));
+          var listFoods = snapshot.data!.docs;
+          return ListView.builder(
+            itemCount: listFoods.length,
+            itemBuilder: (context, index) => ListTile(
+              title: Text(
+                  "${(listFoods[index].data() as Map<String, dynamic>)["food_name"]}"),
+              subtitle: Text(
+                // ignore: prefer_interpolation_to_compose_strings
+                "kalori : " +
+                    (double.parse(listFoods[index].get('multiplier')) * 100)
+                        .toInt()
+                        .toString() +
+                    " kkal per 100 gram",
+              ),
+            ),
+          );
+        }),
+      ),
+    );
   }
 }

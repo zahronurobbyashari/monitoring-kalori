@@ -30,7 +30,7 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                 onTap: () => navigate(0),
                 tileColor: null,
                 textIconColor: Get.currentRoute == Routes.HOME
-                    ? appThemeData.accentColor
+                    ? appThemeData.colorScheme.secondary
                     : Colors.black,
               ),
               Padding(
@@ -39,7 +39,7 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                 child: Divider(
                   thickness: 1,
                   color: Get.currentRoute == Routes.HOME
-                      ? appThemeData.accentColor
+                      ? appThemeData.colorScheme.secondary
                       : null,
                 ),
               ),
@@ -49,7 +49,7 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                 onTap: () => navigate(1),
                 tileColor: null,
                 textIconColor: Get.currentRoute == Routes.DAFTAR_MENU_MAKANAN
-                    ? appThemeData.accentColor
+                    ? appThemeData.colorScheme.secondary
                     : Colors.black,
               ),
               Padding(
@@ -58,17 +58,17 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                 child: Divider(
                   thickness: 1,
                   color: Get.currentRoute == Routes.DAFTAR_MENU_MAKANAN
-                      ? appThemeData.accentColor
+                      ? appThemeData.colorScheme.secondary
                       : null,
                 ),
               ),
               buildDrawerItem(
                   icon: Icons.description,
-                  text: "Keterangan Kalori",
+                  text: "Pantauan Kalori",
                   onTap: () => navigate(2),
                   tileColor: null,
                   textIconColor: Get.currentRoute == Routes.KETERANGAN_KALORI
-                      ? appThemeData.accentColor
+                      ? appThemeData.colorScheme.secondary
                       : Colors.black),
               Padding(
                 padding:
@@ -76,7 +76,7 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                 child: Divider(
                   thickness: 1,
                   color: Get.currentRoute == Routes.KETERANGAN_KALORI
-                      ? appThemeData.accentColor
+                      ? appThemeData.colorScheme.secondary
                       : null,
                 ),
               ),
@@ -86,7 +86,7 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                   onTap: () => navigate(3),
                   tileColor: null,
                   textIconColor: Get.currentRoute == Routes.PENGATURAN
-                      ? appThemeData.accentColor
+                      ? appThemeData.colorScheme.secondary
                       : Colors.black),
               Padding(
                 padding:
@@ -94,7 +94,7 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
                 child: Divider(
                   thickness: 1,
                   color: Get.currentRoute == Routes.PENGATURAN
-                      ? appThemeData.accentColor
+                      ? appThemeData.colorScheme.secondary
                       : null,
                 ),
               ),
@@ -118,7 +118,10 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           stops: const [0.0, 1.0],
-          colors: [appThemeData.primaryColor, appThemeData.accentColor],
+          colors: [
+            appThemeData.primaryColor,
+            appThemeData.colorScheme.secondary
+          ],
         ),
       ),
       padding: const EdgeInsets.all(25),
@@ -127,11 +130,11 @@ class NavigationDrawerView extends GetView<NavigationDrawerController> {
         children: [
           Text(
             "Hello, " + controller.fullname,
-            style: TextStyle(fontSize: 35, color: appThemeData.backgroundColor),
+            style: TextStyle(fontSize: 35, color: appThemeData.canvasColor),
           ),
           Text(
             controller.email,
-            style: TextStyle(fontSize: 20, color: appThemeData.backgroundColor),
+            style: TextStyle(fontSize: 20, color: appThemeData.canvasColor),
           ),
         ],
       ),

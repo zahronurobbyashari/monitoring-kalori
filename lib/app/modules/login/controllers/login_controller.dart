@@ -6,13 +6,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:monitoring_kalori/app/modules/hitung_bmi/controllers/hitung_bmi_controller.dart';
+// import 'package:monitoring_kalori/app/modules/hitung_bmi/controllers/hitung_bmi_controller.dart';
 
 import '../../../data/theme/appTheme.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
-  final bmiC = Get.put(HitungBmiController());
+  // final bmiC = Get.put(HitungBmiController());
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -111,7 +111,10 @@ class LoginController extends GetxController {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: const [0.0, 1.0],
-                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+                colors: [
+                  appThemeData.primaryColor,
+                  appThemeData.colorScheme.secondary
+                ],
               ),
               color: appThemeData.primaryColor,
               borderRadius: BorderRadius.circular(30),
@@ -149,7 +152,10 @@ class LoginController extends GetxController {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: const [0.0, 1.0],
-                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+                colors: [
+                  appThemeData.primaryColor,
+                  appThemeData.colorScheme.secondary
+                ],
               ),
               color: appThemeData.primaryColor,
               borderRadius: BorderRadius.circular(30),
@@ -200,7 +206,10 @@ class LoginController extends GetxController {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: const [0.0, 1.0],
-                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+                colors: [
+                  appThemeData.primaryColor,
+                  appThemeData.colorScheme.secondary
+                ],
               ),
               color: appThemeData.primaryColor,
               borderRadius: BorderRadius.circular(30),
@@ -249,7 +258,10 @@ class LoginController extends GetxController {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: const [0.0, 1.0],
-                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+                colors: [
+                  appThemeData.primaryColor,
+                  appThemeData.colorScheme.secondary
+                ],
               ),
               color: appThemeData.primaryColor,
               borderRadius: BorderRadius.circular(30),

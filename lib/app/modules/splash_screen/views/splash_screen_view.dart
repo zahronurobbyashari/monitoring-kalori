@@ -16,7 +16,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
           gradient: LinearGradient(
             colors: [
               appThemeData.primaryColor,
-              appThemeData.accentColor,
+              appThemeData.colorScheme.secondary,
             ],
             begin: const FractionalOffset(0, 0),
             end: const FractionalOffset(1.0, 0.0),

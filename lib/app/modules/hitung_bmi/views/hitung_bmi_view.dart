@@ -28,7 +28,7 @@ class HitungBmiView extends GetView<HitungBmiController> {
     ];
 
     return Scaffold(
-        backgroundColor: appThemeData.backgroundColor,
+        backgroundColor: appThemeData.canvasColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -76,19 +76,27 @@ class HitungBmiView extends GetView<HitungBmiController> {
                           SizedBox(
                             height: height * 0.01,
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                radioMale(),
-                                radioFemale(),
-                              ],
-                            ),
+                          genderField(),
+                          SizedBox(
+                            height: height * 0.01,
                           ),
+                          activityLevelField(controller),
+                          SizedBox(
+                            height: height * 0.03,
+                          ),
+                          // Container(
+                          //   padding: const EdgeInsets.symmetric(
+                          //       horizontal: 20, vertical: 10),
+                          //   margin: const EdgeInsets.symmetric(
+                          //       vertical: 10, horizontal: 20),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       radioMale(),
+                          //       radioFemale(),
+                          //     ],
+                          //   ),
+                          // ),
                           Container(
                             margin: const EdgeInsets.only(top: 20),
                             decoration:
@@ -111,6 +119,11 @@ class HitungBmiView extends GetView<HitungBmiController> {
                               ),
                             ),
                           ),
+                          SizedBox(height: height * 0.03),
+                          Obx(() => Text(
+                                'Kebutuhan Kalori Harian: ${controller.dailyCaloriesNeeds.toStringAsFixed(2)} kcal',
+                                style: TextStyle(fontSize: 18),
+                              )),
                         ],
                       ))
                 ]),
@@ -171,6 +184,20 @@ class HitungBmiView extends GetView<HitungBmiController> {
     );
   }
 
+  Widget genderField() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          radioMale(),
+          radioFemale(),
+        ],
+      ),
+    );
+  }
+
   Widget radioMale() {
     return Row(
       children: [
@@ -180,7 +207,7 @@ class HitungBmiView extends GetView<HitungBmiController> {
               onChanged: (value) {
                 controller.onChangeGender(value);
               },
-              activeColor: appThemeData.accentColor,
+              activeColor: appThemeData.colorScheme.secondary,
               fillColor: MaterialStateProperty.all(appThemeData.primaryColor),
             )),
         Text("Male"),
@@ -197,11 +224,28 @@ class HitungBmiView extends GetView<HitungBmiController> {
               onChanged: (value) {
                 controller.onChangeGender(value);
               },
-              activeColor: appThemeData.accentColor,
+              activeColor: appThemeData.colorScheme.secondary,
               fillColor: MaterialStateProperty.all(appThemeData.primaryColor),
             )),
         Text("Female"),
       ],
     );
   }
+}
+
+Widget activityLevelField(HitungBmiController controller) {
+  return Obx(() => DropdownButton<double>(
+        value: controller.actLevel.value,
+        hint: Text('Select Activity Level'),
+        items: [
+          DropdownMenuItem(value: 1.2, child: Text('Sangat Jarang')),
+          DropdownMenuItem(value: 1.375, child: Text('Aktivitas Ringan')),
+          DropdownMenuItem(value: 1.55, child: Text('Aktivitas Sedang')),
+          DropdownMenuItem(value: 1.725, child: Text('Aktivitas Berat')),
+          DropdownMenuItem(value: 1.9, child: Text('Aktivitas Sangat Berat')),
+        ],
+        onChanged: (value) {
+          controller.actLevel.value = value ?? 1.2;
+        },
+      ));
 }

@@ -23,7 +23,10 @@ class DaftarMenuMakananView extends GetView<DaftarMenuMakananController> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: const [0.0, 1.0],
-              colors: [appThemeData.primaryColor, appThemeData.accentColor],
+              colors: [
+                appThemeData.primaryColor,
+                appThemeData.colorScheme.secondary
+              ],
             ),
           ),
         ),

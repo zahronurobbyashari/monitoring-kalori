@@ -140,7 +140,10 @@ class RegisterController extends GetxController {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: const [0.0, 1.0],
-              colors: [appThemeData.primaryColor, appThemeData.accentColor],
+              colors: [
+                appThemeData.primaryColor,
+                appThemeData.colorScheme.secondary
+              ],
             ),
             color: appThemeData.primaryColor,
             borderRadius: BorderRadius.circular(30),
@@ -195,7 +198,10 @@ class RegisterController extends GetxController {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: const [0.0, 1.0],
-                colors: [appThemeData.primaryColor, appThemeData.accentColor],
+                colors: [
+                  appThemeData.primaryColor,
+                  appThemeData.colorScheme.secondary
+                ],
               ),
               color: appThemeData.primaryColor,
               borderRadius: BorderRadius.circular(30),

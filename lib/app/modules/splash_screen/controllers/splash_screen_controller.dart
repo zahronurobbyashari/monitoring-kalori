@@ -22,12 +22,16 @@ class SplashScreenController extends GetxController {
     print("on init");
     if (loginC.isSignIn() == true) {
       print("Going to Routes Home in " + timer.toString() + " seconds");
-      Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.HOME)});
+      Timer(Duration(seconds: timer), () {
+        Get.offNamed(Routes.HOME);
+      });
     } else {
       print("has no sign in");
       print("Going to Routes Login in " + timer.toString() + " seconds");
       print("userdata = " + loginC.auth.currentUser.toString());
-      Timer(Duration(seconds: timer), () => {Get.offNamed(Routes.LOGIN)});
+      Timer(Duration(seconds: timer), () {
+        Get.offNamed(Routes.LOGIN);
+      });
     }
   }
 

@@ -7,8 +7,11 @@ import 'package:material_dialogs/material_dialogs.dart';
 final ThemeData appThemeData = ThemeData(
   primaryColor: const Color(0xffFC9F00),
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  accentColor: const Color(0xffFDCE00),
-  backgroundColor: const Color(0xffEFEFEF),
+  colorScheme: ColorScheme.fromSwatch().copyWith(
+    secondary: const Color(0xffFDCE00), // Your accent color
+  ),
+  canvasColor: const Color(0xffEFEFEF),
+  // backgroundColor: const Color(0xffEFEFEF),
   hintColor: const Color(0xff101010),
 );
 
@@ -18,7 +21,7 @@ class FormHelper {
     return InputDecoration(
       labelText: labelText,
       hintText: hintText,
-      fillColor: appThemeData.backgroundColor,
+      fillColor: appThemeData.canvasColor,
       filled: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       floatingLabelStyle: const TextStyle(color: Colors.grey),
@@ -59,7 +62,7 @@ class FormHelper {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         stops: const [0.0, 1.0],
-        colors: [appThemeData.primaryColor, appThemeData.accentColor],
+        colors: [appThemeData.primaryColor, appThemeData.colorScheme.secondary],
       ),
       color: appThemeData.primaryColor,
       borderRadius: BorderRadius.circular(30),
@@ -90,7 +93,10 @@ class FormHelper {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             stops: const [0.0, 1.0],
-            colors: [appThemeData.primaryColor, appThemeData.accentColor],
+            colors: [
+              appThemeData.primaryColor,
+              appThemeData.colorScheme.secondary
+            ],
           ),
         ),
       ),
